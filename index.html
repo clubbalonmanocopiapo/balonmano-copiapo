@@ -752,30 +752,46 @@ function escapeHtml(s){
 }
 
 // IMPORTANTE: callback global
-window.renderGalleryFromDrive = function(data){
-  window.__driveJsonpOk = true;
+window.renderGalleryFromDrive = function (data) {
+  try {
+    console.log("JSONP callback recibido ✅", data);
+    window.__driveJsonpOk = true;
 
-  const grid = document.getElementById("galleryGrid");
-  if (!grid) return;
+    const grid = document.getElementById("galleryGrid");
+    if (!grid) {
+      console.warn("No existe #galleryGrid");
+      return;
+    }
 
-  if (data.error) {
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">${escapeHtml(data.error)}</div></div>`;
-    return;
+    if (!data || data.error) {
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">${(data && data.error) ? String(data.error) : "Respuesta vacía"}</div></div>`;
+      return;
+    }
+
+    const items = (data.items || []).slice(0, 24);
+    console.log("Items:", items.length);
+
+    if (!items.length) {
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Sin fotos aún</div></div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map(it => `
+      <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+        <img src="${it.direct}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;display:block" />
+        <div class="cap">${String(it.name || "").replace(/\.(jpg|jpeg|png|webp)$/i,"")}</div>
+      </a>
+    `).join("");
+
+  } catch (err) {
+    console.error("Error dentro de renderGalleryFromDrive:", err);
+    const grid = document.getElementById("galleryGrid");
+    if (grid) {
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error renderizando fotos: ${String(err)}</div></div>`;
+    }
   }
-
-  const items = (data.items || []).slice(0, 24);
-  if (!items.length) {
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Sin fotos aún</div></div>`;
-    return;
-  }
-
-  grid.innerHTML = items.map((it) => `
-    <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
-      <img src="${it.direct}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;display:block" />
-      <div class="cap">${escapeHtml(it.name.replace(/\.(jpg|jpeg|png|webp)$/i,""))}</div>
-    </a>
-  `).join("");
 };
+
 
 function loadGalleryFromDriveJSONP(){
   const grid = document.getElementById("galleryGrid");
