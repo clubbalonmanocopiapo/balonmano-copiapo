@@ -741,14 +741,42 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
   });
   
 // ====== Drive "API" (Apps Script) ======
-const DRIVE_API_URL = "PEGAR_AQUI_TU_URL_DEL_SCRIPT"; // ejemplo: https://script.google.com/macros/s/XXX/exec
-const DRIVE_FOLDER_ID_FOTOS = "PEGAR_AQUI_FOLDER_ID";  // carpeta con fotos
+const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbyWJCHOdmKEFqWnRAy8EfP_ZTonelznSs8z_HcIDaRf3OS02GIty20JVqzMeEiLsd6s/exec";
+const DRIVE_FOLDER_ID_FOTOS = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
 
-async function loadGalleryFromDrive() {
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, (m) => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+function renderGalleryFromDrive(data){
   const grid = document.getElementById("galleryGrid");
   if (!grid) return;
 
-  // Muestra placeholders mientras carga (mismo estilo)
+  if (data.error) {
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">${escapeHtml(data.error)}</div></div>`;
+    return;
+  }
+
+  const items = (data.items || []).slice(0, 24);
+  if (!items.length) {
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Sin fotos aún</div></div>`;
+    return;
+  }
+
+  grid.innerHTML = items.map((it) => `
+    <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+      <img src="${it.direct}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;display:block" />
+      <div class="cap">${escapeHtml(it.name.replace(/\.(jpg|jpeg|png|webp)$/i,""))}</div>
+    </a>
+  `).join("");
+}
+
+function loadGalleryFromDriveJSONP(){
+  const grid = document.getElementById("galleryGrid");
+  if (!grid) return;
+
   grid.innerHTML = `
     <div class="ph"><div class="cap">Cargando…</div></div>
     <div class="ph"><div class="cap">Cargando…</div></div>
@@ -758,38 +786,21 @@ async function loadGalleryFromDrive() {
     <div class="ph"><div class="cap">Cargando…</div></div>
   `;
 
-  try{
-    const url = `${DRIVE_API_URL}?folderId=${encodeURIComponent(DRIVE_FOLDER_ID_FOTOS)}`;
-    const res = await fetch(url);
-    const data = await res.json();
+  // Quita script anterior si existe
+  const old = document.getElementById("driveJsonp");
+  if (old) old.remove();
 
-    const items = (data.items || []).slice(0, 24); // máximo 24 fotos (ajustable)
-    if (!items.length) {
-      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Sin fotos aún</div></div>`;
-      return;
-    }
-
-    grid.innerHTML = items.map((it) => `
-      <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
-        <img src="${it.direct}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;display:block" />
-        <div class="cap">${escapeHtml(it.name.replace(/\.(jpg|jpeg|png|webp)$/i,""))}</div>
-      </a>
-    `).join("");
-
-  } catch(err){
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error cargando fotos</div></div>`;
-    console.error(err);
-  }
+  const s = document.createElement("script");
+  s.id = "driveJsonp";
+  s.src = `${DRIVE_API_URL}?folderId=${encodeURIComponent(DRIVE_FOLDER_ID_FOTOS)}&callback=renderGalleryFromDrive`;
+  s.onerror = () => {
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error cargando fotos (JSONP)</div></div>`;
+  };
+  document.body.appendChild(s);
 }
 
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, (m) => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[m]));
-}
-
-// Cargar al inicio
-loadGalleryFromDrive();
+// cargar al iniciar
+loadGalleryFromDriveJSONP();
 
   
 </script>
