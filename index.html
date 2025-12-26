@@ -752,10 +752,12 @@ function escapeHtml(s){
 }
 
 // IMPORTANTE: callback global
-window.renderGalleryFromDrive = function (data) {
-  try {
-    console.log("JSONP callback recibido ✅", data);
+  window.renderGalleryFromDrive = function(data){
     window.__driveJsonpOk = true;
+    console.log("JSONP callback recibido ✅", data);
+    // ...tu render...
+  };
+
 
     const grid = document.getElementById("galleryGrid");
     if (!grid) {
@@ -809,40 +811,45 @@ function loadGalleryFromDriveJSONP(){
   // Reset flag
   window.__driveJsonpOk = false;
 
-  // Borrar script anterior
-  const old = document.getElementById("driveJsonp");
-  if (old) old.remove();
+// Borrar script anterior
+const old = document.getElementById("driveJsonp");
+if (old) old.remove();
 
-  // Crear URL con parámetros bien
- const u = new URL(DRIVE_API_URL);
-u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
-
+// Callback único (evita colisiones)
 const cbName = "__bmDriveCb";
-window[cbName] = window.renderGalleryFromDrive; // asegura callback global con nombre único
-u.searchParams.set("callback", cbName);
+window[cbName] = window.renderGalleryFromDrive;
 
-u.searchParams.set("v", Date.now());
+// Crear URL con parámetros bien
+const u = new URL(DRIVE_API_URL);
+u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
+u.searchParams.set("callback", cbName);
+u.searchParams.set("v", Date.now()); // anti-cache
 
 const s = document.createElement("script");
 s.id = "driveJsonp";
 s.src = u.toString();
+
+// Debug: URL + onload + errores
 console.log("JSONP URL:", s.src);
 
-s.onload = () => console.log("JSONP script cargó (onload) ✅");
-s.onerror = () => {
+s.onload = () => {
+  console.log("JSONP script cargó (onload) ✅");
+};
+
+s.onerror = (ev) => {
+  console.error("JSONP script error (onerror) ❌", ev);
   grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
 };
 
 document.body.appendChild(s);
 
-
-  // Si cargó pero no llamó al callback
-  setTimeout(() => {
-    if (!window.__driveJsonpOk) {
-      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">No llegó JSONP válido. Revisa F12 → Console (JSONP URL).</div></div>`;
-    }
-  }, 2500);
-}
+// Si el script carga pero NO ejecuta callback (vino HTML/JSON sin callback)
+setTimeout(() => {
+  if (!window.__driveJsonpOk) {
+    console.warn("JSONP cargó pero NO llamó callback ❌");
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">El endpoint no ejecutó el callback (no devolvió JS tipo ${cbName}(...)).</div></div>`;
+  }
+}, 2500);
 
 
 loadGalleryFromDriveJSONP();
