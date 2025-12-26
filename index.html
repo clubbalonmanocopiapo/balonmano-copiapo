@@ -814,28 +814,27 @@ function loadGalleryFromDriveJSONP(){
   if (old) old.remove();
 
   // Crear URL con parámetros bien
-  const u = new URL(DRIVE_API_URL);
-  u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
-  u.searchParams.set("callback", "renderGalleryFromDrive");
-  u.searchParams.set("v", Date.now()); // anti-cache
+ const u = new URL(DRIVE_API_URL);
+u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
 
-  const s = document.createElement("script");
-  s.id = "driveJsonp";
-  s.src = u.toString();
+const cbName = "__bmDriveCb";
+window[cbName] = window.renderGalleryFromDrive; // asegura callback global con nombre único
+u.searchParams.set("callback", cbName);
 
-  // Debug útil (déjalo por ahora)
-  console.log("JSONP URL:", s.src);
+u.searchParams.set("v", Date.now());
 
-  s.onerror = () => {
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
-  };
+const s = document.createElement("script");
+s.id = "driveJsonp";
+s.src = u.toString();
+console.log("JSONP URL:", s.src);
 
-  //Aqui cambie
-  s.onload = () => {
-    console.log("JSONP script cargó (onload) ✅");
-  };
+s.onload = () => console.log("JSONP script cargó (onload) ✅");
+s.onerror = () => {
+  grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
+};
 
-  document.body.appendChild(s);
+document.body.appendChild(s);
+
 
   // Si cargó pero no llamó al callback
   setTimeout(() => {
