@@ -744,14 +744,13 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
 const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbyJz0uhl1E5eW9aWve0d1TiquKFm6-fxFhefwkbmwcZkjeFlXIxx5ZMwE3R3uwW4uk/exec";
 const DRIVE_FOLDER_ID_FOTOS = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
 
-
 function escapeHtml(s){
   return String(s).replace(/[&<>"']/g, (m) => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
   }[m]));
 }
 
-// Callback GLOBAL (JSONP necesita que exista en window)
+// IMPORTANTE: callback global
 window.renderGalleryFromDrive = function(data){
   window.__driveJsonpOk = true;
 
@@ -790,7 +789,6 @@ function loadGalleryFromDriveJSONP(){
     <div class="ph"><div class="cap">Cargando…</div></div>
   `;
 
-  // Reset flags
   window.__driveJsonpOk = false;
 
   const old = document.getElementById("driveJsonp");
@@ -802,22 +800,22 @@ function loadGalleryFromDriveJSONP(){
   // anti-cache
   const cacheBust = Date.now();
 
-  s.src = `${DRIVE_API_URL}?folderId=${encodeURIComponent(DRIVE_FOLDER_ID_FOTOS)}&callback=renderGalleryFromDrive&v=${cacheBust}`;
+  s.src =
+    `${DRIVE_API_URL}` +
+    `?folderId=${encodeURIComponent(DRIVE_FOLDER_ID_FOTOS)}` +
+    `&callback=renderGalleryFromDrive` +
+    `&v=${cacheBust}`;
 
-  // Si falla red real
   s.onerror = () => {
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos (JSONP)</div></div>`;
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
   };
 
   document.body.appendChild(s);
 
-  // Si NO llama al callback (porque vino HTML / login / error interno)
+  // si el script carga pero NO llama al callback (vino HTML/login)
   setTimeout(() => {
     if (!window.__driveJsonpOk) {
-      grid.innerHTML = `
-        <div class="ph" style="grid-column:span 12">
-          <div class="cap">El script no devolvió JSONP válido (probable permisos/deploy). Revisa F12 → Console.</div>
-        </div>`;
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">El endpoint no devolvió JSONP válido. Revisa permisos del Web App.</div></div>`;
     }
   }, 2500);
 }
