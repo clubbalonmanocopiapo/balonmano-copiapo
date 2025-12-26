@@ -830,6 +830,11 @@ function loadGalleryFromDriveJSONP(){
     grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
   };
 
+  //Aqui cambie
+  s.onload = () => {
+    console.log("JSONP script cargó (onload) ✅");
+  };
+
   document.body.appendChild(s);
 
   // Si cargó pero no llamó al callback
