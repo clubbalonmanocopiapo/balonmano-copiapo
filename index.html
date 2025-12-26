@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Club Deportivo Balonmano Copiapó</title>
+  <meta name="description" content="Sitio oficial del Club Deportivo Balonmano Copiapó: fotos, inscripciones, pagos, estadísticas y noticias." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,71 +14,338 @@
 
   <style>
     :root{
-      --bg:#0b1220; --card:#0f1b2f; --muted:#9bb0d1; --text:#eaf1ff;
-      --brand:#2f7cff; --brand2:#00d4ff; --ok:#23c483; --warn:#ffcc66;
-      --border:rgba(255,255,255,.08); --shadow:0 10px 30px rgba(0,0,0,.35);
-      --radius:18px; --max:1120px;
+      --bg:#0b1220;
+      --card:#0f1b2f;
+      --muted:#9bb0d1;
+      --text:#eaf1ff;
+      --brand:#2f7cff;
+      --brand2:#00d4ff;
+      --ok:#23c483;
+      --warn:#ffcc66;
+      --border:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
+      --max: 1120px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:linear-gradient(180deg,#081021, #060b15 60%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial}
     a{color:inherit}
     .container{max-width:var(--max);margin:0 auto;padding:0 18px}
-    header{position:sticky;top:0;z-index:50;background:rgba(6,11,21,.75);backdrop-filter: blur(10px);border-bottom:1px solid var(--border)}
-    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:14px}
-    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:800;letter-spacing:.2px}
-    .logo{width:38px;height:38px;border-radius:12px;background: radial-gradient(circle at 20% 20%, var(--brand2), var(--brand));
-      box-shadow:0 10px 25px rgba(47,124,255,.25);display:grid;place-items:center;font-weight:900}
+    header{
+      position:sticky;top:0;z-index:50;
+      background:rgba(6,11,21,.75);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;text-decoration:none;
+      font-weight:800;letter-spacing:.2px;
+    }
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background: radial-gradient(circle at 20% 20%, var(--brand2), var(--brand));
+      box-shadow:0 10px 25px rgba(47,124,255,.25);
+      display:grid;place-items:center;
+      font-weight:900;
+    }
     .brand small{display:block;color:var(--muted);font-weight:600;letter-spacing:0}
     .links{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .links a{text-decoration:none;padding:10px 12px;border:1px solid var(--border);border-radius:999px;color:var(--muted);transition:.2s;font-weight:600;font-size:13px}
+    .links a{
+      text-decoration:none;
+      padding:10px 12px;border:1px solid var(--border);
+      border-radius:999px;color:var(--muted);
+      transition:.2s;
+      font-weight:600;
+      font-size:13px;
+    }
     .links a:hover{border-color:rgba(47,124,255,.45);color:var(--text);transform:translateY(-1px)}
-    .cta{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#051021 !important;border:none !important}
+    .cta{
+      background:linear-gradient(90deg,var(--brand),var(--brand2));
+      color:#051021 !important;border:none !important;
+    }
 
-    .hero{padding:42px 0 26px}
-    .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:stretch}
-    .hero-card{background:linear-gradient(180deg, rgba(47,124,255,.18), rgba(15,27,47,.85));
-      border:1px solid rgba(47,124,255,.25);border-radius:var(--radius);box-shadow: var(--shadow);padding:22px;overflow:hidden;position:relative}
-    .hero-card:before{content:"";position:absolute;inset:-40px;
+    .hero{ padding:42px 0 26px; }
+    .hero-grid{
+      display:grid;grid-template-columns:1.25fr .75fr;gap:18px;
+      align-items:stretch;
+    }
+    .hero-card{
+      background:linear-gradient(180deg, rgba(47,124,255,.18), rgba(15,27,47,.85));
+      border:1px solid rgba(47,124,255,.25);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:22px;
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute;inset:-40px;
       background: radial-gradient(circle at 30% 20%, rgba(0,212,255,.25), transparent 55%),
-                  radial-gradient(circle at 80% 60%, rgba(47,124,255,.25), transparent 55%);pointer-events:none}
+                  radial-gradient(circle at 80% 60%, rgba(47,124,255,.25), transparent 55%);
+      pointer-events:none;
+    }
     .hero-card > *{position:relative}
     h1{margin:0 0 10px;font-size:34px;line-height:1.1}
     .sub{color:var(--muted);margin:0 0 18px;max-width:55ch}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .badge{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      padding:8px 10px;border-radius:999px;
+      color:var(--muted);
+      font-weight:600;font-size:13px;
+    }
+
+    .hero-side{
+      background:rgba(15,27,47,.75);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:18px;
+      display:flex;flex-direction:column;justify-content:space-between;
+      gap:14px;
+    }
+    .quick{ display:grid;gap:10px; }
+    .quick .item{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:14px;
+      padding:12px;
+    }
+    .item strong{display:block;margin-bottom:4px}
+    .item span{color:var(--muted);font-size:13px}
     .btnrow{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;
-      border:1px solid var(--border);color:var(--text);font-weight:700;transition:.2s;background:rgba(255,255,255,.03);cursor:pointer}
+    .btn{
+      text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 12px;border-radius:12px;
+      border:1px solid var(--border);
+      color:var(--text);
+      font-weight:700;
+      transition:.2s;
+      background:rgba(255,255,255,.03);
+      cursor:pointer;
+    }
     .btn:hover{transform:translateY(-1px);border-color:rgba(47,124,255,.35)}
-    .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#051021;border:none}
+    .btn.primary{
+      background:linear-gradient(90deg,var(--brand),var(--brand2));
+      color:#051021;border:none;
+    }
 
     section{padding:26px 0}
-    .section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:12px}
+    .section-title{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
+      margin-bottom:12px
+    }
     .section-title h2{margin:0;font-size:22px}
     .section-title p{margin:0;color:var(--muted);font-size:13px;max-width:70ch}
 
-    .card{background:rgba(15,27,47,.75);border:1px solid var(--border);border-radius:var(--radius);box-shadow: var(--shadow);padding:16px}
-    .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
-    .ph{grid-column:span 4;border-radius:16px;border:1px solid var(--border);overflow:hidden;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      min-height:140px;position:relative;cursor:pointer}
-    .ph .cap{position:absolute;left:10px;bottom:10px;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);
-      font-size:12px;color:var(--text);backdrop-filter: blur(8px)}
-    .ph img{width:100%;height:100%;min-height:140px;object-fit:cover;display:block;background:rgba(0,0,0,.12)}
+    .grid{
+      display:grid;gap:14px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .card{
+      grid-column:span 12;
+      background:rgba(15,27,47,.75);
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      padding:16px;
+    }
+
+    /* Gallery placeholders */
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:10px;
+    }
+    .ph{
+      grid-column:span 4;
+      border-radius:16px;
+      border:1px solid var(--border);
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      min-height:140px;
+      position:relative;
+      cursor:pointer;
+    }
+    .ph .cap{
+      position:absolute;left:10px;bottom:10px;
+      padding:6px 10px;border-radius:999px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:12px;color:var(--text);
+      backdrop-filter: blur(8px);
+    }
+    /* training cover image */
+    .ph img{
+      width:100%;
+      height:100%;
+      min-height:140px;
+      object-fit:cover;
+      display:block;
+      background:rgba(0,0,0,.12);
+    }
+
+    /* Forms */
+    form{display:grid;gap:10px}
+    .row{display:grid;gap:10px;grid-template-columns:repeat(12,1fr)}
+    .col6{grid-column:span 6}
+    .col4{grid-column:span 4}
+    .col8{grid-column:span 8}
+    .col12{grid-column:span 12}
+    label{font-size:13px;color:var(--muted);font-weight:600}
+    input,select,textarea{
+      width:100%;
+      background:rgba(255,255,255,.03);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:11px 12px;
+      color:var(--text);
+      outline:none;
+      font:inherit;
+    }
+    textarea{min-height:100px;resize:vertical}
+    input:focus,select:focus,textarea:focus{border-color:rgba(47,124,255,.55)}
     .hint{color:var(--muted);font-size:12px}
 
-    @media (max-width: 980px){ .hero-grid{grid-template-columns:1fr} .ph{grid-column:span 6} }
-    @media (max-width: 640px){ h1{font-size:28px} .links{display:none} .ph{grid-column:span 12} }
+    /* Payments */
+    .paybox{
+      display:grid;gap:10px;
+      grid-template-columns:repeat(12,1fr);
+      align-items:start;
+    }
+    .bank{grid-column:span 7}
+    .upload{grid-column:span 5}
+    .kv{
+      display:grid;gap:8px;margin-top:10px
+    }
+    .kv div{
+      display:flex;justify-content:space-between;gap:10px;
+      border:1px dashed rgba(255,255,255,.15);
+      border-radius:12px;padding:10px;background:rgba(255,255,255,.02)
+    }
+    .kv b{color:var(--text)}
+    .kv span{color:var(--muted);text-align:right}
+    .copy{
+      margin-top:10px;display:flex;gap:10px;flex-wrap:wrap
+    }
 
-    /* Modal entrenamientos */
-    .bm-modal{display:none;position:fixed;inset:0;z-index:9999}
-    .bm-modal.show{display:block}
-    .bm-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.65);backdrop-filter: blur(8px)}
-    .bm-modal-panel{position:relative;width:min(980px, calc(100% - 22px));margin:22px auto;background:rgba(15,27,47,.92);
-      border:1px solid rgba(255,255,255,.10);border-radius:18px;box-shadow: 0 20px 60px rgba(0,0,0,.55);padding:14px;max-height: calc(100vh - 44px);overflow:auto}
-    .bm-modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 6px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
-    .bm-modal-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;padding:12px 6px 6px}
-    .bm-modal-item{grid-column:span 4;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);position:relative}
-    .bm-modal-item img{width:100%;height:190px;object-fit:cover;display:block;background:rgba(0,0,0,.12)}
-    .bm-modal-cap{position:absolute;left:10px;bottom:10px;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.12);
-      font-size:12px;color:var(--text);backdrop-filter: blur(8px)}
+    /* News */
+    .news{
+      display:grid;gap:12px;
+      grid-template-columns:repeat(12,1fr);
+    }
+    .news .n{
+      grid-column:span 4;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      transition:.2s;
+    }
+    .news .n:hover{transform:translateY(-2px);border-color:rgba(47,124,255,.35)}
+    .tag{
+      display:inline-flex;gap:8px;align-items:center;
+      font-size:12px;
+      color:#051021;
+      background:linear-gradient(90deg,var(--warn), #ffd89a);
+      padding:6px 10px;border-radius:999px;
+      font-weight:800;
+    }
+    .meta{color:var(--muted);font-size:12px;margin-top:8px}
+    .n h3{margin:10px 0 6px;font-size:16px}
+    .n p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+
+    footer{
+      padding:20px 0 34px;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .foot{
+      display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .hero-grid{grid-template-columns:1fr}
+      .ph{grid-column:span 6}
+      .news .n{grid-column:span 6}
+      .bank{grid-column:span 12}
+      .upload{grid-column:span 12}
+    }
+    @media (max-width: 640px){
+      h1{font-size:28px}
+      .links{display:none}
+      .ph{grid-column:span 12}
+      .news .n{grid-column:span 12}
+      .col6,.col4,.col8{grid-column:span 12}
+    }
+
+    /* Modal Entrenamientos (solo agrega esta funcionalidad sin cambiar formato general) */
+    .bm-modal{
+      display:none;
+      position:fixed; inset:0;
+      z-index:9999;
+    }
+    .bm-modal.show{ display:block; }
+    .bm-modal-backdrop{
+      position:absolute; inset:0;
+      background:rgba(0,0,0,.65);
+      backdrop-filter: blur(8px);
+    }
+    .bm-modal-panel{
+      position:relative;
+      width:min(980px, calc(100% - 22px));
+      margin:22px auto;
+      background:rgba(15,27,47,.92);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+      padding:14px;
+      max-height: calc(100vh - 44px);
+      overflow:auto;
+    }
+    .bm-modal-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:6px 6px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .bm-modal-grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:10px;
+      padding:12px 6px 6px;
+    }
+    .bm-modal-item{
+      grid-column:span 4;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      position:relative;
+    }
+    .bm-modal-item img{
+      width:100%;
+      height:190px;
+      object-fit:cover;
+      display:block;
+      background:rgba(0,0,0,.12);
+    }
+    .bm-modal-cap{
+      position:absolute;left:10px;bottom:10px;
+      padding:6px 10px;border-radius:999px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:12px;color:var(--text);
+      backdrop-filter: blur(8px);
+    }
     @media(max-width: 980px){ .bm-modal-item{ grid-column:span 6; } }
     @media(max-width: 640px){ .bm-modal-item{ grid-column:span 12; } }
   </style>
@@ -110,17 +378,41 @@
     <div class="hero-grid">
       <div class="hero-card">
         <h1>Pasión, disciplina y comunidad en Copiapó</h1>
-        <p class="sub">Sitio oficial del club: comparte nuestros logros, revisa estadísticas, entérate de campeonatos, y únete al equipo.</p>
+        <p class="sub">
+          Sitio oficial del club: comparte nuestros logros, revisa estadísticas, entérate de campeonatos,
+          y únete al equipo.
+        </p>
         <div class="btnrow">
           <a class="btn primary" href="#unete">Quiero unirme</a>
           <a class="btn" href="#pagos">Pagar mensualidad</a>
           <a class="btn" href="#noticias">Ver noticias</a>
         </div>
+        <div class="badges">
+          <div class="badge">Entrenamientos: <b>Martes & Jueves</b></div>
+          <div class="badge">Categorías: <b>Formativas · Adultos</b></div>
+          <div class="badge">Ciudad: <b>Copiapó</b></div>
+        </div>
       </div>
 
-      <aside class="hero-card" style="border:1px solid var(--border);background:rgba(15,27,47,.75)">
-        <h2 style="font-size:18px;margin:0 0 10px">Panel</h2>
-        <p class="hint" style="margin:0">Aquí puedes poner contacto, próximos eventos y resultado destacado.</p>
+      <aside class="hero-side">
+        <div class="quick">
+          <div class="item">
+            <strong>Contacto</strong>
+            <span>WhatsApp / Instagram / Correo del club</span>
+          </div>
+          <div class="item">
+            <strong>Próximo evento</strong>
+            <span>Agrega aquí el próximo campeonato o amistoso</span>
+          </div>
+          <div class="item">
+            <strong>Último resultado</strong>
+            <span>Completa el último marcador destacado</span>
+          </div>
+        </div>
+        <div class="btnrow">
+          <button class="btn" id="btnScrollFotos">Ver fotos</button>
+          <button class="btn" id="btnScrollStats">Ver estadísticas</button>
+        </div>
       </aside>
     </div>
   </section>
@@ -130,41 +422,240 @@
     <div class="section-title">
       <div>
         <h2>Fotos del club</h2>
-        <p>“Entrenamiento” muestra 1 foto. Al hacer click, carga automáticamente TODAS las fotos de la carpeta Entrenamiento en Drive.</p>
+        <p>En “Entrenamiento” se muestra 1 foto y al hacer click se cargan TODAS las fotos de la carpeta de entrenamientos en Drive.</p>
       </div>
       <div class="hint">Drive</div>
     </div>
 
     <div class="card">
       <div class="gallery">
-        <!-- SOLO: Entrenamiento con imagen + click -->
+        <!-- SOLO: Entrenamiento con imagen real + click abre galería completa -->
         <div class="ph" id="bmTrainingOpen" title="Click para ver galería de Entrenamientos">
-          <img id="bmTrainingCover" alt="Entrenamiento">
+          <img id="bmTrainingCover" alt="Entrenamiento" referrerpolicy="no-referrer">
           <div class="cap">Entrenamiento</div>
         </div>
 
-        <!-- Restante sin tocar formato -->
+        <!-- resto sin tocar -->
         <div class="ph"><div class="cap">Campeonato</div></div>
         <div class="ph"><div class="cap">Equipo</div></div>
         <div class="ph"><div class="cap">Infantil</div></div>
         <div class="ph"><div class="cap">Juvenil</div></div>
         <div class="ph"><div class="cap">Adultos</div></div>
       </div>
+
+      <p class="hint" id="bmTrainStatus" style="margin:12px 0 0"></p>
     </div>
   </section>
 
-  <!-- (Resto del sitio igual, omitido para no tocar tu estructura; puedes pegar tu contenido original aquí tal cual) -->
+  <!-- ÚNETE -->
+  <section id="unete">
+    <div class="section-title">
+      <div>
+        <h2>Únete al club</h2>
+        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; luego puedes conectarlo a Google Forms/Sheets).</p>
+      </div>
+      <div class="hint">Registro</div>
+    </div>
 
-  <section id="unete"><div class="card"><h2>Únete</h2><p class="hint">Tu contenido original aquí.</p></div></section>
-  <section id="pagos"><div class="card"><h2>Pagos</h2><p class="hint">Tu contenido original aquí.</p></div></section>
-  <section id="estadisticas"><div class="card"><h2>Estadísticas</h2><p class="hint">Tu contenido original aquí.</p></div></section>
-  <section id="noticias"><div class="card"><h2>Noticias</h2><p class="hint">Tu contenido original aquí.</p></div></section>
+    <div class="card">
+      <form id="joinForm">
+        <div class="row">
+          <div class="col6">
+            <label>Nombre y apellido</label>
+            <input required name="nombre" placeholder="Ej: Catalina Pérez" />
+          </div>
+          <div class="col6">
+            <label>RUT / Documento</label>
+            <input required name="rut" placeholder="Ej: 12.345.678-9" />
+          </div>
+
+          <div class="col4">
+            <label>Fecha de nacimiento</label>
+            <input required type="date" name="nacimiento" />
+          </div>
+          <div class="col4">
+            <label>Categoría</label>
+            <select required name="categoria">
+              <option value="">Seleccionar…</option>
+              <option>Mini / Infantil</option>
+              <option>Cadete</option>
+              <option>Juvenil</option>
+              <option>Adulto</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="col4">
+            <label>Posición</label>
+            <select name="posicion">
+              <option value="">Opcional…</option>
+              <option>Portero/a</option>
+              <option>Extremo/a</option>
+              <option>Lateral</option>
+              <option>Central</option>
+              <option>Pivote</option>
+            </select>
+          </div>
+
+          <div class="col6">
+            <label>Teléfono</label>
+            <input required name="telefono" placeholder="+56 9 1234 5678" />
+          </div>
+          <div class="col6">
+            <label>Correo</label>
+            <input required type="email" name="correo" placeholder="correo@ejemplo.com" />
+          </div>
+
+          <div class="col6">
+            <label>Dirección / Comuna</label>
+            <input name="direccion" placeholder="Opcional" />
+          </div>
+          <div class="col6">
+            <label>Contacto apoderado (si corresponde)</label>
+            <input name="apoderado" placeholder="Nombre + teléfono (opcional)" />
+          </div>
+
+          <div class="col12">
+            <label>Comentarios</label>
+            <textarea name="comentarios" placeholder="Lesiones, disponibilidad, experiencia previa, etc."></textarea>
+            <div class="hint">Al enviar, se guarda un registro local (en este navegador).</div>
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button type="submit" class="btn primary">Enviar solicitud</button>
+          <button type="button" class="btn" id="btnViewLocal">Ver solicitudes guardadas</button>
+          <button type="button" class="btn" id="btnClearLocal">Borrar registro local</button>
+        </div>
+
+        <div id="joinMsg" class="hint"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAGOS -->
+  <section id="pagos">
+    <div class="section-title">
+      <div>
+        <h2>Pagos de mensualidad</h2>
+        <p>Datos de transferencia + subida de comprobante. Reemplaza los datos por los reales del club.</p>
+      </div>
+      <div class="hint">Pagos</div>
+    </div>
+
+    <div class="card">
+      <div class="paybox">
+        <div class="bank">
+          <div class="tag">Transferencia / Depósito</div>
+
+          <div class="kv" id="bankKV">
+            <div><b>Banco</b><span id="banco">[Tu Banco]</span></div>
+            <div><b>Tipo de cuenta</b><span id="tipo">Cuenta Corriente</span></div>
+            <div><b>N° de cuenta</b><span id="cuenta">12.345.678</span></div>
+            <div><b>RUT</b><span id="rut">12.345.678-9</span></div>
+            <div><b>Nombre</b><span id="nombreCuenta">Club Deportivo Balonmano Copiapó</span></div>
+            <div><b>Correo confirmación</b><span id="correoCuenta">pagos@tudominio.cl</span></div>
+            <div><b>Glosa/Asunto</b><span id="glosa">Mensualidad + Nombre jugador/a</span></div>
+          </div>
+
+          <div class="copy">
+            <button class="btn" type="button" id="btnCopyAll">Copiar datos</button>
+            <a class="btn" href="#unete">¿No estás inscrito? Únete</a>
+          </div>
+        </div>
+
+        <div class="upload">
+          <div class="tag" style="background:linear-gradient(90deg,var(--ok), #87f5c0)">Subir comprobante</div>
+
+          <form id="payForm" style="margin-top:10px">
+            <label>Nombre jugador/a</label>
+            <input name="jugador" required placeholder="Ej: Catalina Pérez" />
+
+            <label>Monto pagado (CLP)</label>
+            <input name="monto" required inputmode="numeric" placeholder="Ej: 15000" />
+
+            <label>Mes que pagas</label>
+            <input name="mes" required placeholder="Ej: Diciembre 2025" />
+
+            <label>Comprobante (imagen o PDF)</label>
+            <input name="comprobante" type="file" accept="image/*,application/pdf" />
+
+            <button class="btn primary" type="submit">Registrar pago</button>
+            <div id="payMsg" class="hint"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTADÍSTICAS -->
+  <section id="estadisticas">
+    <div class="section-title">
+      <div>
+        <h2>Estadísticas deportivas</h2>
+        <p>Ejemplo de panel con gráfico. Puedes cambiar a estadísticas por categoría, jugador/a, torneo, etc.</p>
+      </div>
+      <div class="hint">Stats</div>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="grid-column:span 4">
+        <div class="tag" style="background:linear-gradient(90deg,var(--brand), var(--brand2))">Temporada</div>
+        <h3 style="margin:10px 0 6px">Resumen</h3>
+        <p class="hint" id="seasonSummary" style="margin:0"></p>
+      </div>
+
+      <div class="card" style="grid-column:span 8">
+        <canvas id="chartResults" height="110"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICIAS -->
+  <section id="noticias">
+    <div class="section-title">
+      <div>
+        <h2>Noticias y últimos campeonatos</h2>
+        <p>Publica resultados, experiencias, MVP, fotos destacadas y próximos eventos.</p>
+      </div>
+      <div class="hint">Noticias</div>
+    </div>
+
+    <div class="card">
+      <div class="news" id="newsGrid">
+        <article class="n">
+          <span class="tag">Campeonato</span>
+          <h3>Fecha 1: Buen arranque en fase de grupos</h3>
+          <p>Resumen breve del partido, rival, puntos altos y aprendizaje.</p>
+          <div class="meta">📅 10 dic 2025 · 🏟️ Copiapó</div>
+        </article>
+
+        <article class="n">
+          <span class="tag" style="background:linear-gradient(90deg,#c7a3ff,#8deaff)">Resultados</span>
+          <h3>Victoria ajustada: defensa sólida en los minutos finales</h3>
+          <p>Cuenta el marcador, goleadores y qué viene para el equipo.</p>
+          <div class="meta">📅 12 dic 2025 · 🥅 28 - 26</div>
+        </article>
+
+        <article class="n">
+          <span class="tag" style="background:linear-gradient(90deg,#ff7aa2,#ffd1a3)">Próximo</span>
+          <h3>Próximo torneo: inscripción y convocatoria</h3>
+          <p>Fecha, lugar, categorías y llamado a apoyar al club.</p>
+          <div class="meta">📅 20 dic 2025 · 📣 Convocatoria abierta</div>
+        </article>
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer style="padding:20px 0 34px;border-top:1px solid var(--border);color:var(--muted);font-size:13px">
-  <div class="container">
-    <b>Club Deportivo Balonmano Copiapó</b><br/>
-    <span>© <span id="year"></span> · Todos los derechos reservados</span>
+<footer>
+  <div class="container foot">
+    <div>
+      <b>Club Deportivo Balonmano Copiapó</b><br/>
+      <span>© <span id="year"></span> · Todos los derechos reservados</span>
+    </div>
+    <div class="hint">
+      Desarrollado en HTML + CSS + JS
+    </div>
   </div>
 </footer>
 
@@ -185,19 +676,37 @@
 </div>
 
 <script>
-  // ===== CONFIG =====
-  document.getElementById("year").textContent = new Date().getFullYear();
+  // ====== Config rápida (edita aquí) ======
+  const CLUB = {
+    banco: "Banco Estado",
+    tipo: "Cuenta Corriente",
+    cuenta: "12.345.678",
+    rut: "12.345.678-9",
+    nombreCuenta: "Club Deportivo Balonmano Copiapó",
+    correoCuenta: "pagos@tudominio.cl",
+    glosa: "Mensualidad + Nombre jugador/a",
+    mensualidad: 15000
+  };
 
-  // Tu carpeta Drive (Entrenamientos)
-  const TRAINING_FOLDER_ID = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
+  const STATS = {
+    season: "2025",
+    played: 12,
+    won: 8,
+    drawn: 1,
+    lost: 3,
+    goalsFor: 312,
+    goalsAgainst: 280
+  };
 
-  // Pega aquí la URL de tu Apps Script publicado como Web App (exec)
-  const TRAINING_FEED_URL = "PON_AQUI_TU_URL_DE_APPS_SCRIPT";
-
-  // Drive thumbnail (funciona bien en GitHub Pages)
+  // ====== Drive helpers ======
   const driveThumb = (id, w=1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
 
-  // ===== ELEMENTOS =====
+  // ====== ENTRENAMIENTOS: carpeta + feed Apps Script ======
+  const TRAINING_FOLDER_ID = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
+  const TRAINING_FEED_URL = "https://script.google.com/macros/s/AKfycbzsQsPSvodg5KD4RASU2TWUzvYl-yIsvBcSjdjG91mlgRDEMlhZLZ3qdBkjiAVyd2u7/exec";
+
+  // ====== UI ======
+  const bmTrainStatus = document.getElementById("bmTrainStatus");
   const bmTrainingCover = document.getElementById("bmTrainingCover");
   const bmTrainingOpen = document.getElementById("bmTrainingOpen");
   const bmTrainingModal = document.getElementById("bmTrainingModal");
@@ -205,43 +714,44 @@
   const bmTrainingCloseBtn = document.getElementById("bmTrainingCloseBtn");
   const bmTrainingGrid = document.getElementById("bmTrainingGrid");
 
-  let TRAINING_PHOTOS = []; // se carga desde Apps Script
+  let TRAINING_PHOTOS = [];
 
   async function loadTrainingFromDriveFolder(){
-    // Si no pegaste la URL, no hacemos fetch
-    if (!TRAINING_FEED_URL || TRAINING_FEED_URL.includes("PON_AQUI")) {
-      // fallback: deja una portada vacía
-      bmTrainingCover.src = "";
-      bmTrainingCover.alt = "Configura TRAINING_FEED_URL";
-      return;
-    }
-
     const url = `${TRAINING_FEED_URL}?folder=${encodeURIComponent(TRAINING_FOLDER_ID)}`;
-    const res = await fetch(url, { cache: "no-store" });
-    const data = await res.json();
+    bmTrainStatus.textContent = "Cargando fotos de entrenamientos…";
 
-    if (!Array.isArray(data) || data.length === 0) {
-      TRAINING_PHOTOS = [];
-      bmTrainingCover.src = "";
-      return;
+    try{
+      const res = await fetch(url, { cache: "no-store" });
+      const data = await res.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        TRAINING_PHOTOS = [];
+        bmTrainingCover.removeAttribute("src");
+        bmTrainStatus.textContent = "No se encontraron fotos en la carpeta (o no tienen permisos públicos).";
+        return;
+      }
+
+      TRAINING_PHOTOS = data.map((x, i) => ({
+        id: x.id,
+        title: (x.name ? x.name : `Entrenamiento ${i+1}`).replace(/\.[^/.]+$/, "")
+      }));
+
+      // Portada: primera foto
+      bmTrainingCover.src = driveThumb(TRAINING_PHOTOS[0].id, 1200);
+      bmTrainingCover.referrerPolicy = "no-referrer";
+
+      bmTrainStatus.textContent = `Listo ✅ ${TRAINING_PHOTOS.length} fotos cargadas desde Drive. (Click en “Entrenamiento” para ver todas)`;
+    }catch(err){
+      bmTrainStatus.textContent = "Error cargando la carpeta. Revisa que la implementación del Apps Script sea pública (Cualquiera) y que la carpeta tenga acceso por enlace.";
+      console.error(err);
     }
-
-    // data = [{id, name}, ...]
-    TRAINING_PHOTOS = data.map((x, i) => ({
-      id: x.id,
-      title: x.name ? x.name.replace(/\.[^/.]+$/, "") : `Entrenamiento ${i+1}`
-    }));
-
-    // Portada = primera foto
-    bmTrainingCover.src = driveThumb(TRAINING_PHOTOS[0].id, 1200);
-    bmTrainingCover.referrerPolicy = "no-referrer";
   }
 
   function bmRenderTraining(){
     bmTrainingGrid.innerHTML = "";
 
     if (!TRAINING_PHOTOS.length) {
-      bmTrainingGrid.innerHTML = `<div class="hint" style="padding:10px">No se encontraron fotos. Revisa permisos de la carpeta y que TRAINING_FEED_URL esté configurado.</div>`;
+      bmTrainingGrid.innerHTML = `<div class="hint" style="padding:10px">No hay fotos para mostrar. Revisa permisos y vuelve a recargar la página.</div>`;
       return;
     }
 
@@ -274,7 +784,123 @@
   bmTrainingCloseBtn.addEventListener("click", bmCloseTraining);
   document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && bmTrainingModal.classList.contains("show")) bmCloseTraining(); });
 
-  // Cargar automáticamente al iniciar (para que ya se vea portada)
+  // ====== Bank info paint ======
+  const setText = (id, v) => document.getElementById(id).textContent = v;
+  setText("banco", CLUB.banco);
+  setText("tipo", CLUB.tipo);
+  setText("cuenta", CLUB.cuenta);
+  setText("rut", CLUB.rut);
+  setText("nombreCuenta", CLUB.nombreCuenta);
+  setText("correoCuenta", CLUB.correoCuenta);
+  setText("glosa", CLUB.glosa);
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // ====== Scroll buttons ======
+  document.getElementById("btnScrollFotos").addEventListener("click", ()=> document.getElementById("fotos").scrollIntoView({behavior:"smooth"}));
+  document.getElementById("btnScrollStats").addEventListener("click", ()=> document.getElementById("estadisticas").scrollIntoView({behavior:"smooth"}));
+
+  // ====== Copy bank data ======
+  document.getElementById("btnCopyAll").addEventListener("click", async () => {
+    const txt =
+`Banco: ${CLUB.banco}
+Tipo: ${CLUB.tipo}
+Cuenta: ${CLUB.cuenta}
+RUT: ${CLUB.rut}
+Nombre: ${CLUB.nombreCuenta}
+Correo: ${CLUB.correoCuenta}
+Glosa: ${CLUB.glosa}
+Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
+    try{
+      await navigator.clipboard.writeText(txt);
+      alert("Datos copiados ✅");
+    }catch(e){
+      alert("No se pudo copiar automáticamente. Copia manualmente desde la sección.");
+    }
+  });
+
+  // ====== Local storage join ======
+  const LS_JOIN = "bm_copiapo_join_requests_v1";
+  const joinForm = document.getElementById("joinForm");
+  const joinMsg = document.getElementById("joinMsg");
+
+  joinForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fd = new FormData(joinForm);
+    const obj = Object.fromEntries(fd.entries());
+    obj._ts = new Date().toISOString();
+
+    const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
+    arr.unshift(obj);
+    localStorage.setItem(LS_JOIN, JSON.stringify(arr));
+
+    joinMsg.textContent = "Solicitud guardada localmente ✅";
+    joinForm.reset();
+  });
+
+  document.getElementById("btnViewLocal").addEventListener("click", () => {
+    const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
+    if(!arr.length){ alert("No hay solicitudes guardadas aún."); return; }
+    const preview = arr.slice(0,5).map((x,i)=> `${i+1}. ${x.nombre} (${x.categoria}) - ${x.telefono} - ${x.correo}`).join("\n");
+    alert("Últimas solicitudes (máx 5):\n\n" + preview);
+  });
+
+  document.getElementById("btnClearLocal").addEventListener("click", () => {
+    if(confirm("¿Seguro que deseas borrar el registro local de solicitudes?")){
+      localStorage.removeItem(LS_JOIN);
+      joinMsg.textContent = "Registro local borrado.";
+    }
+  });
+
+  // ====== Local storage payments ======
+  const LS_PAY = "bm_copiapo_payments_v1";
+  const payForm = document.getElementById("payForm");
+  const payMsg = document.getElementById("payMsg");
+
+  payForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fd = new FormData(payForm);
+    const obj = {
+      jugador: fd.get("jugador"),
+      monto: fd.get("monto"),
+      mes: fd.get("mes"),
+      comprobanteNombre: fd.get("comprobante")?.name || "",
+      _ts: new Date().toISOString()
+    };
+
+    const arr = JSON.parse(localStorage.getItem(LS_PAY) || "[]");
+    arr.unshift(obj);
+    localStorage.setItem(LS_PAY, JSON.stringify(arr));
+
+    payMsg.textContent = "Pago registrado localmente ✅";
+    payForm.reset();
+  });
+
+  // ====== Stats summary + chart ======
+  document.getElementById("seasonSummary").textContent =
+    `Temporada ${STATS.season}: PJ ${STATS.played} · G ${STATS.won} · E ${STATS.drawn} · P ${STATS.lost} · GF ${STATS.goalsFor} · GC ${STATS.goalsAgainst}`;
+
+  const ctx = document.getElementById("chartResults");
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Ganados', 'Empatados', 'Perdidos'],
+      datasets: [{
+        label: 'Partidos',
+        data: [STATS.won, STATS.drawn, STATS.lost],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { labels: { color: '#eaf1ff' } } },
+      scales: {
+        x: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } },
+        y: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } }
+      }
+    }
+  });
+
+  // ====== INIT: load training folder ======
   loadTrainingFromDriveFolder();
 </script>
 </body>
