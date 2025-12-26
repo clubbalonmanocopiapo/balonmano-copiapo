@@ -840,16 +840,25 @@ s.onerror = (ev) => {
   console.error("JSONP script error (onerror) ❌", ev);
   grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
 };
+//aca hice cambio
+window.__driveJsonpAttempted = Date.now();
+window.__driveJsonpOk = false;
 
 document.body.appendChild(s);
 
 // Si el script carga pero NO ejecuta callback (vino HTML/JSON sin callback)
 setTimeout(() => {
+  console.log("DEBUG JSONP status:", {
+    attempted: window.__driveJsonpAttempted,
+    ok: window.__driveJsonpOk
+  });
+
   if (!window.__driveJsonpOk) {
-    console.warn("JSONP cargó pero NO llamó callback ❌");
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">El endpoint no ejecutó el callback (no devolvió JS tipo ${cbName}(...)).</div></div>`;
+    console.warn("JSONP no llamó callback ❌");
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">No se ejecutó el callback. Abre la JSONP URL en el navegador y revisa si empieza con __bmDriveCb(</div></div>`;
   }
 }, 2500);
+
 
 
 loadGalleryFromDriveJSONP();
