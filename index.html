@@ -6,10 +6,12 @@
   <title>Club Deportivo Balonmano Copiapó</title>
   <meta name="description" content="Sitio oficial del Club Deportivo Balonmano Copiapó: fotos, inscripciones, pagos, estadísticas y noticias." />
 
+  <!-- Tipografía -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
+  <!-- Chart.js para estadísticas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -69,7 +71,10 @@
       color:#051021 !important;border:none !important;
     }
 
-    .hero{ padding:42px 0 26px; }
+    /* Hero */
+    .hero{
+      padding:42px 0 26px;
+    }
     .hero-grid{
       display:grid;grid-template-columns:1.25fr .75fr;gap:18px;
       align-items:stretch;
@@ -111,7 +116,9 @@
       display:flex;flex-direction:column;justify-content:space-between;
       gap:14px;
     }
-    .quick{ display:grid;gap:10px; }
+    .quick{
+      display:grid;gap:10px;
+    }
     .quick .item{
       border:1px solid var(--border);
       background:rgba(255,255,255,.03);
@@ -137,6 +144,7 @@
       color:#051021;border:none;
     }
 
+    /* Sections */
     section{padding:26px 0}
     .section-title{
       display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
@@ -158,6 +166,7 @@
       padding:16px;
     }
 
+    /* Gallery */
     .gallery{
       display:grid;
       grid-template-columns:repeat(12,1fr);
@@ -171,7 +180,6 @@
       background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       min-height:140px;
       position:relative;
-      cursor:pointer;
     }
     .ph .cap{
       position:absolute;left:10px;bottom:10px;
@@ -181,15 +189,8 @@
       font-size:12px;color:var(--text);
       backdrop-filter: blur(8px);
     }
-    .ph img{
-      width:100%;
-      height:100%;
-      min-height:140px;
-      object-fit:cover;
-      display:block;
-      background:rgba(0,0,0,.12);
-    }
 
+    /* Forms */
     form{display:grid;gap:10px}
     .row{display:grid;gap:10px;grid-template-columns:repeat(12,1fr)}
     .col6{grid-column:span 6}
@@ -211,6 +212,7 @@
     input:focus,select:focus,textarea:focus{border-color:rgba(47,124,255,.55)}
     .hint{color:var(--muted);font-size:12px}
 
+    /* Payments */
     .paybox{
       display:grid;gap:10px;
       grid-template-columns:repeat(12,1fr);
@@ -232,6 +234,7 @@
       margin-top:10px;display:flex;gap:10px;flex-wrap:wrap
     }
 
+    /* News */
     .news{
       display:grid;gap:12px;
       grid-template-columns:repeat(12,1fr);
@@ -257,6 +260,7 @@
     .n h3{margin:10px 0 6px;font-size:16px}
     .n p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
 
+    /* Footer */
     footer{
       padding:20px 0 34px;
       border-top:1px solid var(--border);
@@ -267,6 +271,7 @@
       display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between
     }
 
+    /* Responsive */
     @media (max-width: 980px){
       .hero-grid{grid-template-columns:1fr}
       .ph{grid-column:span 6}
@@ -281,66 +286,6 @@
       .news .n{grid-column:span 12}
       .col6,.col4,.col8{grid-column:span 12}
     }
-
-    .bm-modal{
-      display:none;
-      position:fixed; inset:0;
-      z-index:9999;
-    }
-    .bm-modal.show{ display:block; }
-    .bm-modal-backdrop{
-      position:absolute; inset:0;
-      background:rgba(0,0,0,.65);
-      backdrop-filter: blur(8px);
-    }
-    .bm-modal-panel{
-      position:relative;
-      width:min(980px, calc(100% - 22px));
-      margin:22px auto;
-      background:rgba(15,27,47,.92);
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.55);
-      padding:14px;
-      max-height: calc(100vh - 44px);
-      overflow:auto;
-    }
-    .bm-modal-head{
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:6px 6px 10px;
-      border-bottom:1px solid rgba(255,255,255,.08);
-    }
-    .bm-modal-grid{
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:10px;
-      padding:12px 6px 6px;
-    }
-    .bm-modal-item{
-      grid-column:span 4;
-      border-radius:16px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
-      position:relative;
-    }
-    .bm-modal-item img{
-      width:100%;
-      height:190px;
-      object-fit:cover;
-      display:block;
-      background:rgba(0,0,0,.12);
-    }
-    .bm-modal-cap{
-      position:absolute;left:10px;bottom:10px;
-      padding:6px 10px;border-radius:999px;
-      background:rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.12);
-      font-size:12px;color:var(--text);
-      backdrop-filter: blur(8px);
-    }
-    @media(max-width: 980px){ .bm-modal-item{ grid-column:span 6; } }
-    @media(max-width: 640px){ .bm-modal-item{ grid-column:span 12; } }
   </style>
 </head>
 
@@ -410,39 +355,239 @@
     </div>
   </section>
 
+  <!-- FOTOS -->
   <section id="fotos">
     <div class="section-title">
       <div>
         <h2>Fotos del club</h2>
-        <p>En “Entrenamiento” se muestra 1 foto y al hacer click se cargan TODAS las fotos de la carpeta de entrenamientos en Drive.</p>
+        <p>Reemplaza estos “bloques” por fotos reales (o puedes convertirlos en imágenes con rutas locales).</p>
       </div>
-      <div class="hint">Drive</div>
+      <div class="hint">Tip: puedes usar Google Photos/Drive y enlazar álbumes</div>
     </div>
 
     <div class="card">
       <div class="gallery">
-        <div class="ph" id="bmTrainingOpen" title="Click para ver galería de Entrenamientos">
-          <img id="bmTrainingCover" alt="Entrenamiento" referrerpolicy="no-referrer">
-          <div class="cap">Entrenamiento</div>
-        </div>
-
+        <!-- Para usar imágenes reales: cambia el div por <img src="ruta.jpg" ...> -->
+        <div class="ph"><div class="cap">Entrenamiento</div></div>
         <div class="ph"><div class="cap">Campeonato</div></div>
         <div class="ph"><div class="cap">Equipo</div></div>
         <div class="ph"><div class="cap">Infantil</div></div>
         <div class="ph"><div class="cap">Juvenil</div></div>
         <div class="ph"><div class="cap">Adultos</div></div>
       </div>
-
-      <p class="hint" id="bmTrainStatus" style="margin:12px 0 0"></p>
+      <p class="hint" style="margin:12px 0 0">
+        Si quieres, te dejo esta misma galería conectada a una carpeta (Drive) o a un CMS simple.
+      </p>
     </div>
   </section>
 
-  <!-- (resto de secciones sin cambios) -->
   <!-- ÚNETE -->
-  <section id="unete"> ... </section>
-  <section id="pagos"> ... </section>
-  <section id="estadisticas"> ... </section>
-  <section id="noticias"> ... </section>
+  <section id="unete">
+    <div class="section-title">
+      <div>
+        <h2>Únete al club</h2>
+        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; al final te explico cómo enviarlo a correo/Google Sheets).</p>
+      </div>
+      <div class="hint">Campos sugeridos para federación y control interno</div>
+    </div>
+
+    <div class="card">
+      <form id="joinForm">
+        <div class="row">
+          <div class="col6">
+            <label>Nombre y apellido</label>
+            <input required name="nombre" placeholder="Ej: Catalina Pérez" />
+          </div>
+          <div class="col6">
+            <label>RUT / Documento</label>
+            <input required name="rut" placeholder="Ej: 12.345.678-9" />
+          </div>
+
+          <div class="col4">
+            <label>Fecha de nacimiento</label>
+            <input required type="date" name="nacimiento" />
+          </div>
+          <div class="col4">
+            <label>Categoría</label>
+            <select required name="categoria">
+              <option value="">Seleccionar…</option>
+              <option>Mini / Infantil</option>
+              <option>Cadete</option>
+              <option>Juvenil</option>
+              <option>Adulto</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="col4">
+            <label>Posición</label>
+            <select name="posicion">
+              <option value="">Opcional…</option>
+              <option>Portero/a</option>
+              <option>Extremo/a</option>
+              <option>Lateral</option>
+              <option>Central</option>
+              <option>Pivote</option>
+            </select>
+          </div>
+
+          <div class="col6">
+            <label>Teléfono</label>
+            <input required name="telefono" placeholder="+56 9 1234 5678" />
+          </div>
+          <div class="col6">
+            <label>Correo</label>
+            <input required type="email" name="correo" placeholder="correo@ejemplo.com" />
+          </div>
+
+          <div class="col6">
+            <label>Dirección / Comuna</label>
+            <input name="direccion" placeholder="Opcional" />
+          </div>
+          <div class="col6">
+            <label>Contacto apoderado (si corresponde)</label>
+            <input name="apoderado" placeholder="Nombre + teléfono (opcional)" />
+          </div>
+
+          <div class="col12">
+            <label>Comentarios</label>
+            <textarea name="comentarios" placeholder="Lesiones, disponibilidad, experiencia previa, etc."></textarea>
+            <div class="hint">Al enviar, se guarda un registro local (en este navegador). Para recibirlo en correo/planilla, usa una de las opciones del final.</div>
+          </div>
+        </div>
+
+        <div class="btnrow">
+          <button type="submit" class="btn primary">Enviar solicitud</button>
+          <button type="button" class="btn" id="btnViewLocal">Ver solicitudes guardadas</button>
+          <button type="button" class="btn" id="btnClearLocal">Borrar registro local</button>
+        </div>
+
+        <div id="joinMsg" class="hint"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- PAGOS -->
+  <section id="pagos">
+    <div class="section-title">
+      <div>
+        <h2>Pagos de mensualidad</h2>
+        <p>Datos de transferencia + subida de comprobante. Reemplaza los datos por los reales del club.</p>
+      </div>
+      <div class="hint">Recomendado: incluir “asunto” con nombre del jugador/a</div>
+    </div>
+
+    <div class="card">
+      <div class="paybox">
+        <div class="bank">
+          <div class="tag">Transferencia / Depósito</div>
+
+          <div class="kv" id="bankKV">
+            <div><b>Banco</b><span id="banco">[Tu Banco]</span></div>
+            <div><b>Tipo de cuenta</b><span id="tipo">Cuenta Corriente</span></div>
+            <div><b>N° de cuenta</b><span id="cuenta">12.345.678</span></div>
+            <div><b>RUT</b><span id="rut">12.345.678-9</span></div>
+            <div><b>Nombre</b><span id="nombreCuenta">Club Deportivo Balonmano Copiapó</span></div>
+            <div><b>Correo confirmación</b><span id="correoCuenta">pagos@tudominio.cl</span></div>
+            <div><b>Glosa/Asunto</b><span id="glosa">Mensualidad + Nombre jugador/a</span></div>
+          </div>
+
+          <div class="copy">
+            <button class="btn" type="button" id="btnCopyAll">Copiar datos</button>
+            <a class="btn" href="#unete">¿No estás inscrito? Únete</a>
+          </div>
+
+          <p class="hint" style="margin:10px 0 0">
+            Si quieres “pago automático con tarjeta”, se puede integrar con un gateway (Webpay/Flow/MercadoPago),
+            pero requiere cuenta y configuración del proveedor.
+          </p>
+        </div>
+
+        <div class="upload">
+          <div class="tag" style="background:linear-gradient(90deg,var(--ok), #87f5c0)">Subir comprobante</div>
+
+          <form id="payForm" style="margin-top:10px">
+            <label>Nombre jugador/a</label>
+            <input name="jugador" required placeholder="Ej: Catalina Pérez" />
+
+            <label>Monto pagado (CLP)</label>
+            <input name="monto" required inputmode="numeric" placeholder="Ej: 15000" />
+
+            <label>Mes que pagas</label>
+            <input name="mes" required placeholder="Ej: Diciembre 2025" />
+
+            <label>Comprobante (imagen o PDF)</label>
+            <input name="comprobante" type="file" accept="image/*,application/pdf" />
+
+            <button class="btn primary" type="submit">Registrar pago</button>
+            <div id="payMsg" class="hint"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESTADÍSTICAS -->
+  <section id="estadisticas">
+    <div class="section-title">
+      <div>
+        <h2>Estadísticas deportivas</h2>
+        <p>Ejemplo de panel con gráfico. Puedes cambiar a estadísticas por categoría, jugador/a, torneo, etc.</p>
+      </div>
+      <div class="hint">Editable desde el bloque de datos JS</div>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="grid-column:span 4">
+        <div class="tag" style="background:linear-gradient(90deg,var(--brand), var(--brand2))">Temporada</div>
+        <h3 style="margin:10px 0 6px">Resumen</h3>
+        <p class="hint" id="seasonSummary" style="margin:0"></p>
+      </div>
+
+      <div class="card" style="grid-column:span 8">
+        <canvas id="chartResults" height="110"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOTICIAS -->
+  <section id="noticias">
+    <div class="section-title">
+      <div>
+        <h2>Noticias y últimos campeonatos</h2>
+        <p>Publica resultados, experiencias, MVP, fotos destacadas y próximos eventos.</p>
+      </div>
+      <div class="hint">Esto también puede alimentarse desde Instagram / Facebook</div>
+    </div>
+
+    <div class="card">
+      <div class="news" id="newsGrid">
+        <!-- Noticias ejemplo -->
+        <article class="n">
+          <span class="tag">Campeonato</span>
+          <h3>Fecha 1: Buen arranque en fase de grupos</h3>
+          <p>Resumen breve del partido, rival, puntos altos y aprendizaje. Edita este texto por el real.</p>
+          <div class="meta">📅 10 dic 2025 · 🏟️ Copiapó</div>
+        </article>
+
+        <article class="n">
+          <span class="tag" style="background:linear-gradient(90deg,#c7a3ff,#8deaff)">Resultados</span>
+          <h3>Victoria ajustada: defensa sólida en los minutos finales</h3>
+          <p>Cuenta el marcador, goleadores y qué viene para el equipo. Edita aquí.</p>
+          <div class="meta">📅 12 dic 2025 · 🥅 28 - 26</div>
+        </article>
+
+        <article class="n">
+          <span class="tag" style="background:linear-gradient(90deg,#ff7aa2,#ffd1a3)">Próximo</span>
+          <h3>Próximo torneo: inscripción y convocatoria</h3>
+          <p>Fecha, lugar, categorías y llamado a apoyar al club. Edita aquí.</p>
+          <div class="meta">📅 20 dic 2025 · 📣 Convocatoria abierta</div>
+        </article>
+      </div>
+      <p class="hint" style="margin:12px 0 0">
+        Si me pasas tus noticias reales (texto y fechas), te las dejo “pro” con imágenes, etiquetas y links.
+      </p>
+    </div>
+  </section>
 </main>
 
 <footer>
@@ -451,26 +596,14 @@
       <b>Club Deportivo Balonmano Copiapó</b><br/>
       <span>© <span id="year"></span> · Todos los derechos reservados</span>
     </div>
-    <div class="hint">Desarrollado en HTML + CSS + JS</div>
+    <div class="hint">
+      Desarrollado en HTML + CSS + JS (puede alojarse gratis en GitHub Pages)
+    </div>
   </div>
 </footer>
 
-<div class="bm-modal" id="bmTrainingModal" aria-hidden="true">
-  <div class="bm-modal-backdrop" id="bmTrainingClose"></div>
-  <div class="bm-modal-panel" role="dialog" aria-modal="true" aria-label="Galería Entrenamientos">
-    <div class="bm-modal-head">
-      <div>
-        <strong>Entrenamientos</strong><br>
-        <span class="hint">Fotos alojadas en Google Drive</span>
-      </div>
-      <button class="btn" type="button" id="bmTrainingCloseBtn">Cerrar ✕</button>
-    </div>
-
-    <div class="bm-modal-grid" id="bmTrainingGrid"></div>
-  </div>
-</div>
-
 <script>
+  // ====== Config rápida (edita aquí) ======
   const CLUB = {
     banco: "Banco Estado",
     tipo: "Cuenta Corriente",
@@ -482,6 +615,7 @@
     mensualidad: 15000
   };
 
+  // Datos de ejemplo para gráfico
   const STATS = {
     season: "2025",
     played: 12,
@@ -489,128 +623,128 @@
     drawn: 1,
     lost: 3,
     goalsFor: 312,
-    goalsAgainst: 280
+    goalsAgainst: 280,
+    last5: [1, 1, 0, 1, 0] // 1=win, 0=loss (solo ejemplo)
   };
 
-  const driveThumb = (id, w=1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
-
-  const TRAINING_FOLDER_ID = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
-  const TRAINING_FEED_URL = "https://script.google.com/macros/s/AKfycbzsQsPSvodg5KD4RASU2TWUzvYl-yIsvBcSjdjG91mlgRDEMlhZLZ3qdBkjiAVyd2u7/exec";
-
-  const bmTrainStatus = document.getElementById("bmTrainStatus");
-  const bmTrainingCover = document.getElementById("bmTrainingCover");
-  const bmTrainingOpen = document.getElementById("bmTrainingOpen");
-  const bmTrainingModal = document.getElementById("bmTrainingModal");
-  const bmTrainingClose = document.getElementById("bmTrainingClose");
-  const bmTrainingCloseBtn = document.getElementById("bmTrainingCloseBtn");
-  const bmTrainingGrid = document.getElementById("bmTrainingGrid");
-
-  let TRAINING_PHOTOS = [];
-
-  // ====== JSONP helper (soluciona CORS en GitHub Pages) ======
-  function jsonp(url, callbackName) {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      const timeout = setTimeout(() => {
-        cleanup();
-        reject(new Error("JSONP timeout"));
-      }, 15000);
-
-      function cleanup() {
-        clearTimeout(timeout);
-        script.remove();
-        try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
-      }
-
-      window[callbackName] = (data) => {
-        cleanup();
-        resolve(data);
-      };
-
-      script.src = url;
-      script.onerror = () => {
-        cleanup();
-        reject(new Error("JSONP load error"));
-      };
-
-      document.body.appendChild(script);
-    });
-  }
-
-  async function loadTrainingFromDriveFolder(){
-    const cb = "bm_cb_" + Math.random().toString(36).slice(2);
-    const url = `${TRAINING_FEED_URL}?folder=${encodeURIComponent(TRAINING_FOLDER_ID)}&callback=${cb}`;
-
-    bmTrainStatus.textContent = "Cargando fotos de entrenamientos…";
-
-    try{
-      const data = await jsonp(url, cb);
-
-      if (!Array.isArray(data) || data.length === 0) {
-        TRAINING_PHOTOS = [];
-        bmTrainingCover.removeAttribute("src");
-        bmTrainStatus.textContent = "No se encontraron fotos en la carpeta (o permisos).";
-        return;
-      }
-
-      TRAINING_PHOTOS = data.map((x, i) => ({
-        id: x.id,
-        title: (x.name ? x.name : `Entrenamiento ${i+1}`).replace(/\.[^/.]+$/, "")
-      }));
-
-      bmTrainingCover.src = driveThumb(TRAINING_PHOTOS[0].id, 1200);
-      bmTrainingCover.referrerPolicy = "no-referrer";
-
-      bmTrainStatus.textContent = `Listo ✅ ${TRAINING_PHOTOS.length} fotos cargadas. (Click en “Entrenamiento” para ver todas)`;
-    }catch(err){
-      console.error(err);
-      bmTrainStatus.textContent = "Error cargando Drive. Revisa que actualizaste el Apps Script con callback y re-implementaste como 'Cualquiera'.";
-    }
-  }
-
-  function bmRenderTraining(){
-    bmTrainingGrid.innerHTML = "";
-
-    if (!TRAINING_PHOTOS.length) {
-      bmTrainingGrid.innerHTML = `<div class="hint" style="padding:10px">No hay fotos para mostrar. Revisa permisos y recarga.</div>`;
-      return;
-    }
-
-    TRAINING_PHOTOS.forEach((p)=>{
-      const div = document.createElement("div");
-      div.className = "bm-modal-item";
-      div.innerHTML = `
-        <img alt="${p.title}" loading="lazy" referrerpolicy="no-referrer">
-        <div class="bm-modal-cap">${p.title}</div>
-      `;
-      div.querySelector("img").src = driveThumb(p.id, 1200);
-      bmTrainingGrid.appendChild(div);
-    });
-  }
-
-  function bmOpenTraining(){
-    bmTrainingModal.classList.add("show");
-    bmTrainingModal.setAttribute("aria-hidden","false");
-    document.body.style.overflow = "hidden";
-    bmRenderTraining();
-  }
-  function bmCloseTraining(){
-    bmTrainingModal.classList.remove("show");
-    bmTrainingModal.setAttribute("aria-hidden","true");
-    document.body.style.overflow = "";
-  }
-
-  bmTrainingOpen.addEventListener("click", bmOpenTraining);
-  bmTrainingClose.addEventListener("click", bmCloseTraining);
-  bmTrainingCloseBtn.addEventListener("click", bmCloseTraining);
-  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && bmTrainingModal.classList.contains("show")) bmCloseTraining(); });
-
+  // ====== Pintar datos de cuenta ======
   const setText = (id, v) => document.getElementById(id).textContent = v;
-  // (tu resto de JS igual, lo dejo tal como lo tienes si está en tu archivo)
+  setText("banco", CLUB.banco);
+  setText("tipo", CLUB.tipo);
+  setText("cuenta", CLUB.cuenta);
+  setText("rut", CLUB.rut);
+  setText("nombreCuenta", CLUB.nombreCuenta);
+  setText("correoCuenta", CLUB.correoCuenta);
+  setText("glosa", CLUB.glosa);
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // INIT
-  loadTrainingFromDriveFolder();
+  // ====== Scroll botones ======
+  document.getElementById("btnScrollFotos").addEventListener("click", ()=> document.getElementById("fotos").scrollIntoView({behavior:"smooth"}));
+  document.getElementById("btnScrollStats").addEventListener("click", ()=> document.getElementById("estadisticas").scrollIntoView({behavior:"smooth"}));
+
+  // ====== Copiar datos de pago ======
+  document.getElementById("btnCopyAll").addEventListener("click", async () => {
+    const txt =
+`Banco: ${CLUB.banco}
+Tipo: ${CLUB.tipo}
+Cuenta: ${CLUB.cuenta}
+RUT: ${CLUB.rut}
+Nombre: ${CLUB.nombreCuenta}
+Correo: ${CLUB.correoCuenta}
+Glosa: ${CLUB.glosa}
+Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
+    try{
+      await navigator.clipboard.writeText(txt);
+      alert("Datos copiados ✅");
+    }catch(e){
+      alert("No se pudo copiar automáticamente. Copia manualmente desde la sección.");
+    }
+  });
+
+  // ====== Registro local (sin backend) - Únete ======
+  const LS_JOIN = "bm_copiapo_join_requests_v1";
+  const joinForm = document.getElementById("joinForm");
+  const joinMsg = document.getElementById("joinMsg");
+
+  joinForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fd = new FormData(joinForm);
+    const obj = Object.fromEntries(fd.entries());
+    obj._ts = new Date().toISOString();
+
+    const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
+    arr.unshift(obj);
+    localStorage.setItem(LS_JOIN, JSON.stringify(arr));
+
+    joinMsg.textContent = "Solicitud guardada localmente ✅ (ver botón 'Ver solicitudes guardadas').";
+    joinForm.reset();
+  });
+
+  document.getElementById("btnViewLocal").addEventListener("click", () => {
+    const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
+    if(!arr.length){ alert("No hay solicitudes guardadas aún."); return; }
+    const preview = arr.slice(0,5).map((x,i)=> `${i+1}. ${x.nombre} (${x.categoria}) - ${x.telefono} - ${x.correo}`).join("\n");
+    alert("Últimas solicitudes (máx 5):\n\n" + preview + "\n\n*Esto está en tu navegador. Para recibir en correo/planilla, usa Formspree/Google Forms.");
+  });
+
+  document.getElementById("btnClearLocal").addEventListener("click", () => {
+    if(confirm("¿Seguro que deseas borrar el registro local de solicitudes?")){
+      localStorage.removeItem(LS_JOIN);
+      joinMsg.textContent = "Registro local borrado.";
+    }
+  });
+
+  // ====== Registro local (sin backend) - Pagos ======
+  const LS_PAY = "bm_copiapo_payments_v1";
+  const payForm = document.getElementById("payForm");
+  const payMsg = document.getElementById("payMsg");
+
+  payForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const fd = new FormData(payForm);
+    const obj = {
+      jugador: fd.get("jugador"),
+      monto: fd.get("monto"),
+      mes: fd.get("mes"),
+      comprobanteNombre: fd.get("comprobante")?.name || "",
+      _ts: new Date().toISOString()
+    };
+
+    const arr = JSON.parse(localStorage.getItem(LS_PAY) || "[]");
+    arr.unshift(obj);
+    localStorage.setItem(LS_PAY, JSON.stringify(arr));
+
+    payMsg.textContent = "Pago registrado localmente ✅ (ideal: conectarlo a correo/planilla).";
+    payForm.reset();
+  });
+
+  // ====== Estadísticas: resumen + gráfico ======
+  const gd = (a,b)=> (b===0?0: (a/b)*100);
+  document.getElementById("seasonSummary").textContent =
+    `Temporada ${STATS.season}: PJ ${STATS.played} · G ${STATS.won} · E ${STATS.drawn} · P ${STATS.lost} · GF ${STATS.goalsFor} · GC ${STATS.goalsAgainst} · Rendimiento ${gd((STATS.won*2 + STATS.drawn), (STATS.played*2)).toFixed(0)}%`;
+
+  const ctx = document.getElementById("chartResults");
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Ganados', 'Empatados', 'Perdidos'],
+      datasets: [{
+        label: 'Partidos',
+        data: [STATS.won, STATS.drawn, STATS.lost],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#eaf1ff' } }
+      },
+      scales: {
+        x: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } },
+        y: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } }
+      }
+    }
+  });
 </script>
 </body>
 </html>
