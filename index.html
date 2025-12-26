@@ -366,9 +366,12 @@
     </div>
 
     <div class="card">
-      <div class="gallery" id="galleryGrid">
-        <!-- Se rellena desde Drive -->
-      </div>
+      <iframe
+      title="Galería del club"
+      src="https://script.google.com/macros/s/AKfycbxzQ3pt2gmCyWtbjApv3azYcldpECdDE73Po8hxZcTpTv1Zak3OA-6MF88QZJqVQUAK/exec?mode=html&folderId=1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1"
+      style="width:100%;border:0;border-radius:18px;min-height:900px;"
+      loading="lazy"></iframe>
+
       <p class="hint" style="margin:12px 0 0">
         Si agregas nuevas fotos a Drive, se verán automáticamente al recargar.
       </p>
@@ -747,7 +750,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
   });
 
   // ====== Drive (Apps Script) - Galería ======
-  const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbyJz0uhl1E5eW9aWve0d1TiquKFm6-fxFhefwkbmwcZkjeFlXIxx5ZMwE3R3uwW4uk/exec";
+  const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbxzQ3pt2gmCyWtbjApv3azYcldpECdDE73Po8hxZcTpTv1Zak3OA-6MF88QZJqVQUAK/exec";
   const DRIVE_FOLDER_ID_FOTOS = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
 
   window.renderGalleryFromDrive = function(data){
