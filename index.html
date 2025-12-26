@@ -1,794 +1,202 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Club Deportivo Balonmano Copiapó</title>
-  <meta name="description" content="Sitio oficial del Club Deportivo Balonmano Copiapó: fotos, inscripciones, pagos, estadísticas y noticias." />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Club Deportivo Balonmano Copiapó</title>
 
-  <!-- Tipografía -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Chart.js para estadísticas -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+ --bg:#0b1220;--card:#0f1b2f;--muted:#9bb0d1;--text:#eaf1ff;
+ --brand:#2f7cff;--brand2:#00d4ff;--border:rgba(255,255,255,.08);
+ --radius:18px;--shadow:0 10px 30px rgba(0,0,0,.35);--max:1120px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter;background:linear-gradient(180deg,#081021,#060b15 60%);color:var(--text)}
+a{color:inherit;text-decoration:none}
+.container{max-width:var(--max);margin:auto;padding:0 18px}
+header{position:sticky;top:0;background:rgba(6,11,21,.85);border-bottom:1px solid var(--border)}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:12px 0}
+.brand{font-weight:800;font-size:18px}
+.links a{margin-left:10px;padding:8px 12px;border:1px solid var(--border);border-radius:999px;color:var(--muted)}
+.links a:hover{color:var(--text)}
+.cta{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#051021;border:none}
 
-  <style>
-    :root{
-      --bg:#0b1220;
-      --card:#0f1b2f;
-      --muted:#9bb0d1;
-      --text:#eaf1ff;
-      --brand:#2f7cff;
-      --brand2:#00d4ff;
-      --ok:#23c483;
-      --warn:#ffcc66;
-      --border:rgba(255,255,255,.08);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius: 18px;
-      --max: 1120px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;background:linear-gradient(180deg,#081021, #060b15 60%);color:var(--text);font-family:Inter,system-ui,Segoe UI,Arial}
-    a{color:inherit}
-    .container{max-width:var(--max);margin:0 auto;padding:0 18px}
-    header{
-      position:sticky;top:0;z-index:50;
-      background:rgba(6,11,21,.75);
-      backdrop-filter: blur(10px);
-      border-bottom:1px solid var(--border);
-    }
-    .nav{
-      display:flex;align-items:center;justify-content:space-between;
-      padding:14px 0;
-      gap:14px;
-    }
-	.ph img{
-	  width:100%;
-	  height:100%;
-	  object-fit:cover;
-	  display:block;
-	}
-    .brand{
-      display:flex;align-items:center;gap:10px;text-decoration:none;
-      font-weight:800;letter-spacing:.2px;
-    }
-    .logo{
-      width:38px;height:38px;border-radius:12px;
-      background: radial-gradient(circle at 20% 20%, var(--brand2), var(--brand));
-      box-shadow:0 10px 25px rgba(47,124,255,.25);
-      display:grid;place-items:center;
-      font-weight:900;
-    }
-    .brand small{display:block;color:var(--muted);font-weight:600;letter-spacing:0}
-    .links{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    .links a{
-      text-decoration:none;
-      padding:10px 12px;border:1px solid var(--border);
-      border-radius:999px;color:var(--muted);
-      transition:.2s;
-      font-weight:600;
-      font-size:13px;
-    }
-    .links a:hover{border-color:rgba(47,124,255,.45);color:var(--text);transform:translateY(-1px)}
-    .cta{
-      background:linear-gradient(90deg,var(--brand),var(--brand2));
-      color:#051021 !important;border:none !important;
-    }
+section{padding:28px 0}
+.card{background:rgba(15,27,47,.8);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+h1,h2,h3{margin:0 0 10px}
+.hint{color:var(--muted);font-size:13px}
 
-    /* Hero */
-    .hero{
-      padding:42px 0 26px;
-    }
-    .hero-grid{
-      display:grid;grid-template-columns:1.25fr .75fr;gap:18px;
-      align-items:stretch;
-    }
-    .hero-card{
-      background:linear-gradient(180deg, rgba(47,124,255,.18), rgba(15,27,47,.85));
-      border:1px solid rgba(47,124,255,.25);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-      padding:22px;
-      overflow:hidden;
-      position:relative;
-    }
-    .hero-card:before{
-      content:"";
-      position:absolute;inset:-40px;
-      background: radial-gradient(circle at 30% 20%, rgba(0,212,255,.25), transparent 55%),
-                  radial-gradient(circle at 80% 60%, rgba(47,124,255,.25), transparent 55%);
-      pointer-events:none;
-    }
-    .hero-card > *{position:relative}
-    h1{margin:0 0 10px;font-size:34px;line-height:1.1}
-    .sub{color:var(--muted);margin:0 0 18px;max-width:55ch}
-    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
-    .badge{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      padding:8px 10px;border-radius:999px;
-      color:var(--muted);
-      font-weight:600;font-size:13px;
-    }
+.hero{padding:40px 0}
+.hero .card{padding:26px}
+.btn{padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.05);color:var(--text);cursor:pointer}
+.btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#051021;border:none}
 
-    .hero-side{
-      background:rgba(15,27,47,.75);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-      padding:18px;
-      display:flex;flex-direction:column;justify-content:space-between;
-      gap:14px;
-    }
-    .quick{
-      display:grid;gap:10px;
-    }
-    .quick .item{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      border-radius:14px;
-      padding:12px;
-    }
-    .item strong{display:block;margin-bottom:4px}
-    .item span{color:var(--muted);font-size:13px}
-    .btnrow{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{
-      text-decoration:none;display:inline-flex;align-items:center;justify-content:center;
-      padding:10px 12px;border-radius:12px;
-      border:1px solid var(--border);
-      color:var(--text);
-      font-weight:700;
-      transition:.2s;
-      background:rgba(255,255,255,.03);
-      cursor:pointer;
-    }
-    .btn:hover{transform:translateY(-1px);border-color:rgba(47,124,255,.35)}
-    .btn.primary{
-      background:linear-gradient(90deg,var(--brand),var(--brand2));
-      color:#051021;border:none;
-    }
+/* ===== FOTO PORTADA ===== */
+.cover{
+ position:relative;overflow:hidden;border-radius:18px;cursor:pointer;
+ border:1px solid rgba(255,255,255,.1);min-height:280px;
+}
+.cover img{width:100%;height:100%;min-height:280px;object-fit:cover;display:block;transition:.3s}
+.cover:hover img{transform:scale(1.06)}
+.coverOverlay{
+ position:absolute;inset:0;
+ background:linear-gradient(180deg,transparent 45%,rgba(0,0,0,.6));
+ display:flex;flex-direction:column;justify-content:flex-end;padding:16px
+}
+.coverTitle{font-weight:900;font-size:20px}
+.coverSubtitle{font-size:13px;opacity:.9}
+.coverHint{margin-top:8px;background:rgba(255,255,255,.2);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;align-self:flex-start}
 
-    /* Sections */
-    section{padding:26px 0}
-    .section-title{
-      display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
-      margin-bottom:12px
-    }
-    .section-title h2{margin:0;font-size:22px}
-    .section-title p{margin:0;color:var(--muted);font-size:13px;max-width:70ch}
+/* ===== MODAL GALERIA ===== */
+.modal{display:none;position:fixed;inset:0;z-index:9999}
+.modal.show{display:block}
+.modalBackdrop{position:absolute;inset:0;background:rgba(0,0,0,.7)}
+.modalPanel{
+ position:relative;margin:20px auto;
+ width:min(1000px,95%);
+ background:rgba(15,27,47,.95);
+ border-radius:18px;padding:14px;
+ max-height:90vh;overflow:auto;
+}
+.modalHeader{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:8px}
+.filterRow{margin:10px 0}
+.filter{margin-right:8px}
+.filter.active{background:linear-gradient(90deg,var(--brand),var(--brand2));color:#051021;border:none}
 
-    .grid{
-      display:grid;gap:14px;
-      grid-template-columns: repeat(12, 1fr);
-    }
-    .card{
-      grid-column:span 12;
-      background:rgba(15,27,47,.75);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-      padding:16px;
-    }
+.galleryGrid{display:grid;grid-template-columns:repeat(12,1fr);gap:10px}
+.gItem{grid-column:span 4;border-radius:14px;overflow:hidden;border:1px solid var(--border);position:relative}
+.gItem img{width:100%;height:180px;object-fit:cover}
+.gCap{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.4);padding:5px 10px;border-radius:999px;font-size:12px}
+@media(max-width:900px){.gItem{grid-column:span 6}}
+@media(max-width:600px){.gItem{grid-column:span 12}}
 
-    /* Gallery */
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:10px;
-    }
-    .ph{
-      grid-column:span 4;
-      border-radius:16px;
-      border:1px solid var(--border);
-      overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      min-height:140px;
-      position:relative;
-    }
-    .ph .cap{
-      position:absolute;left:10px;bottom:10px;
-      padding:6px 10px;border-radius:999px;
-      background:rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.12);
-      font-size:12px;color:var(--text);
-      backdrop-filter: blur(8px);
-    }
-
-    /* Forms */
-    form{display:grid;gap:10px}
-    .row{display:grid;gap:10px;grid-template-columns:repeat(12,1fr)}
-    .col6{grid-column:span 6}
-    .col4{grid-column:span 4}
-    .col8{grid-column:span 8}
-    .col12{grid-column:span 12}
-    label{font-size:13px;color:var(--muted);font-weight:600}
-    input,select,textarea{
-      width:100%;
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:11px 12px;
-      color:var(--text);
-      outline:none;
-      font:inherit;
-    }
-    textarea{min-height:100px;resize:vertical}
-    input:focus,select:focus,textarea:focus{border-color:rgba(47,124,255,.55)}
-    .hint{color:var(--muted);font-size:12px}
-
-    /* Payments */
-    .paybox{
-      display:grid;gap:10px;
-      grid-template-columns:repeat(12,1fr);
-      align-items:start;
-    }
-    .bank{grid-column:span 7}
-    .upload{grid-column:span 5}
-    .kv{
-      display:grid;gap:8px;margin-top:10px
-    }
-    .kv div{
-      display:flex;justify-content:space-between;gap:10px;
-      border:1px dashed rgba(255,255,255,.15);
-      border-radius:12px;padding:10px;background:rgba(255,255,255,.02)
-    }
-    .kv b{color:var(--text)}
-    .kv span{color:var(--muted);text-align:right}
-    .copy{
-      margin-top:10px;display:flex;gap:10px;flex-wrap:wrap
-    }
-
-    /* News */
-    .news{
-      display:grid;gap:12px;
-      grid-template-columns:repeat(12,1fr);
-    }
-    .news .n{
-      grid-column:span 4;
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      transition:.2s;
-    }
-    .news .n:hover{transform:translateY(-2px);border-color:rgba(47,124,255,.35)}
-    .tag{
-      display:inline-flex;gap:8px;align-items:center;
-      font-size:12px;
-      color:#051021;
-      background:linear-gradient(90deg,var(--warn), #ffd89a);
-      padding:6px 10px;border-radius:999px;
-      font-weight:800;
-    }
-    .meta{color:var(--muted);font-size:12px;margin-top:8px}
-    .n h3{margin:10px 0 6px;font-size:16px}
-    .n p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
-
-    /* Footer */
-    footer{
-      padding:20px 0 34px;
-      border-top:1px solid var(--border);
-      color:var(--muted);
-      font-size:13px;
-    }
-    .foot{
-      display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between
-    }
-
-    /* Responsive */
-    @media (max-width: 980px){
-      .hero-grid{grid-template-columns:1fr}
-      .ph{grid-column:span 6}
-      .news .n{grid-column:span 6}
-      .bank{grid-column:span 12}
-      .upload{grid-column:span 12}
-    }
-    @media (max-width: 640px){
-      h1{font-size:28px}
-      .links{display:none}
-      .ph{grid-column:span 12}
-      .news .n{grid-column:span 12}
-      .col6,.col4,.col8{grid-column:span 12}
-    }
-  </style>
+footer{border-top:1px solid var(--border);padding:20px 0;color:var(--muted);font-size:13px}
+</style>
 </head>
 
 <body>
 <header>
-  <div class="container nav">
-    <a class="brand" href="#inicio">
-      <div class="logo">BM</div>
-      <div>
-        Club Deportivo Balonmano Copiapó
-        <small>Fotos · Inscripción · Pagos · Estadísticas · Noticias</small>
-      </div>
-    </a>
-
-    <nav class="links" aria-label="Navegación principal">
-      <a href="#fotos">Fotos</a>
-      <a href="#unete">Únete</a>
-      <a href="#pagos">Pagos</a>
-      <a href="#estadisticas">Estadísticas</a>
-      <a href="#noticias">Noticias</a>
-      <a class="cta" href="#unete">Inscribirse</a>
-    </nav>
-  </div>
+<div class="container nav">
+  <div class="brand">🤾‍♂️ Club Deportivo Balonmano Copiapó</div>
+  <nav class="links">
+    <a href="#fotos">Fotos</a>
+    <a href="#noticias">Noticias</a>
+    <a href="#contacto" class="cta">Contacto</a>
+  </nav>
+</div>
 </header>
 
-<main id="inicio" class="container">
-  <section class="hero">
-    <div class="hero-grid">
-      <div class="hero-card">
-        <h1>Pasión, disciplina y comunidad en Copiapó</h1>
-        <p class="sub">
-          Sitio oficial del club: comparte nuestros logros, revisa estadísticas, entérate de campeonatos,
-          y únete al equipo.
-        </p>
-        <div class="btnrow">
-          <a class="btn primary" href="#unete">Quiero unirme</a>
-          <a class="btn" href="#pagos">Pagar mensualidad</a>
-          <a class="btn" href="#noticias">Ver noticias</a>
-        </div>
-        <div class="badges">
-          <div class="badge">Entrenamientos: <b>Martes & Jueves</b></div>
-          <div class="badge">Categorías: <b>Formativas · Adultos</b></div>
-          <div class="badge">Ciudad: <b>Copiapó</b></div>
-        </div>
-      </div>
+<main class="container">
+<section class="hero">
+  <div class="card">
+    <h1>Pasión y deporte en Copiapó</h1>
+    <p class="hint">Bienvenidos al sitio oficial del Club Deportivo Balonmano Copiapó.</p>
+    <button class="btn primary" onclick="document.getElementById('fotos').scrollIntoView({behavior:'smooth'})">Ver Fotos</button>
+  </div>
+</section>
 
-      <aside class="hero-side">
-        <div class="quick">
-          <div class="item">
-            <strong>Contacto</strong>
-            <span>WhatsApp / Instagram / Correo del club</span>
-          </div>
-          <div class="item">
-            <strong>Próximo evento</strong>
-            <span>Agrega aquí el próximo campeonato o amistoso</span>
-          </div>
-          <div class="item">
-            <strong>Último resultado</strong>
-            <span>Completa el último marcador destacado</span>
-          </div>
-        </div>
-        <div class="btnrow">
-          <button class="btn" id="btnScrollFotos">Ver fotos</button>
-          <button class="btn" id="btnScrollStats">Ver estadísticas</button>
-        </div>
-      </aside>
+<!-- FOTOS -->
+<section id="fotos">
+<h2>Fotos del club</h2>
+<div class="card">
+  <div class="cover" id="openGallery">
+    <img src="https://drive.google.com/uc?export=view&id=1tktm5oG1teMpRnn4X4qtfbc22y8ZUrLd" alt="Portada">
+    <div class="coverOverlay">
+      <div class="coverTitle">Galería del Club</div>
+      <div class="coverSubtitle">Entrenamientos y campeonatos</div>
+      <div class="coverHint">Click para abrir</div>
     </div>
-  </section>
+  </div>
+</div>
+</section>
 
-  <!-- FOTOS -->
-  <section id="fotos">
-    <div class="section-title">
-      <div>
-        <h2>Fotos del club</h2>
-        <p>Reemplaza estos “bloques” por fotos reales (o puedes convertirlos en imágenes con rutas locales).</p>
-      </div>
-      <div class="hint">Tip: puedes usar Google Photos/Drive y enlazar álbumes</div>
+<!-- MODAL -->
+<div class="modal" id="galleryModal">
+  <div class="modalBackdrop" id="closeGallery"></div>
+  <div class="modalPanel">
+    <div class="modalHeader">
+      <strong>Galería de Fotos</strong>
+      <button class="btn" id="btnCloseModal">Cerrar ✕</button>
     </div>
 
-    <div class="card">
-      <div class="gallery">
-        <!-- Para usar imágenes reales: cambia el div por <img src="ruta.jpg" ...> -->
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=1tktm5oG1teMpRnn4X4qtfbc22y8ZUrLd" alt="Foto 1">
-		    <div class="cap">Foto 1</div>
-		  </div>
-		
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=1tktm5oG1teMpRnn4X4qtfbc22y8ZUrLd" alt="Foto 2">
-		    <div class="cap">Foto 2</div>
-		  </div>
-		
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=1x3PiV_gNr65kDo4o-UPzX_E3X5ydH4ev" alt="Foto 3">
-		    <div class="cap">Foto 3</div>
-		  </div>
-		
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=1ss8oOEwQTRAh0kypTs5yr566TBRn7g83" alt="Foto 4">
-		    <div class="cap">Foto 4</div>
-		  </div>
-		
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=1ByOMF9V1LSvtMv9IEJWbt_QuYLxBx_5y" alt="Foto 5">
-		    <div class="cap">Foto 5</div>
-		  </div>
-		
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=17u3Kf7c2Tmkni2gMUcm0ECvA7Mdlxg8p" alt="Foto 6">
-		    <div class="cap">Foto 6</div>
-		  </div>
-		
-		  <div class="ph">
-		    <img src="https://drive.google.com/uc?export=view&id=1PH4mHuNgKdV1SHcYbD8OBLAhrtJ-mRCa" alt="Foto 7">
-		    <div class="cap">Foto 7</div>
-		  </div>
-
-
-		  
-        <div class="ph"><img src="https://drive.google.com/uc?export=view&id=1tktm5oG1teMpRnn4X4qtfbc22y8ZUrLd" 	alt="Entrenamiento">
-		<div class="cap">Entrenamiento</div></div>
-        <div class="ph"><div class="cap">Campeonato</div></div>
-        <div class="ph"><div class="cap">Equipo</div></div>
-        <div class="ph"><div class="cap">Infantil</div></div>
-        <div class="ph"><div class="cap">Juvenil</div></div>
-        <div class="ph"><div class="cap">Adultos</div></div>
-      </div>
-      <p class="hint" style="margin:12px 0 0">
-        Si quieres, te dejo esta misma galería conectada a una carpeta (Drive) o a un CMS simple.
-      </p>
-    </div>
-  </section>
-
-  <!-- ÚNETE -->
-  <section id="unete">
-    <div class="section-title">
-      <div>
-        <h2>Únete al club</h2>
-        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; al final te explico cómo enviarlo a correo/Google Sheets).</p>
-      </div>
-      <div class="hint">Campos sugeridos para federación y control interno</div>
+    <div class="filterRow">
+      <button class="btn filter active" data-filter="all">Todas</button>
+      <button class="btn filter" data-filter="entrenamientos">Entrenamientos</button>
+      <button class="btn filter" data-filter="campeonatos">Campeonatos</button>
     </div>
 
-    <div class="card">
-      <form id="joinForm">
-        <div class="row">
-          <div class="col6">
-            <label>Nombre y apellido</label>
-            <input required name="nombre" placeholder="Ej: Catalina Pérez" />
-          </div>
-          <div class="col6">
-            <label>RUT / Documento</label>
-            <input required name="rut" placeholder="Ej: 12.345.678-9" />
-          </div>
+    <div class="galleryGrid" id="galleryGrid"></div>
+  </div>
+</div>
 
-          <div class="col4">
-            <label>Fecha de nacimiento</label>
-            <input required type="date" name="nacimiento" />
-          </div>
-          <div class="col4">
-            <label>Categoría</label>
-            <select required name="categoria">
-              <option value="">Seleccionar…</option>
-              <option>Mini / Infantil</option>
-              <option>Cadete</option>
-              <option>Juvenil</option>
-              <option>Adulto</option>
-              <option>Otro</option>
-            </select>
-          </div>
-          <div class="col4">
-            <label>Posición</label>
-            <select name="posicion">
-              <option value="">Opcional…</option>
-              <option>Portero/a</option>
-              <option>Extremo/a</option>
-              <option>Lateral</option>
-              <option>Central</option>
-              <option>Pivote</option>
-            </select>
-          </div>
+<!-- NOTICIAS -->
+<section id="noticias">
+<h2>Noticias</h2>
+<div class="card">
+  <h3>Último campeonato regional</h3>
+  <p class="hint">Gran participación del club en el torneo regional de Copiapó.</p>
+</div>
+</section>
 
-          <div class="col6">
-            <label>Teléfono</label>
-            <input required name="telefono" placeholder="+56 9 1234 5678" />
-          </div>
-          <div class="col6">
-            <label>Correo</label>
-            <input required type="email" name="correo" placeholder="correo@ejemplo.com" />
-          </div>
-
-          <div class="col6">
-            <label>Dirección / Comuna</label>
-            <input name="direccion" placeholder="Opcional" />
-          </div>
-          <div class="col6">
-            <label>Contacto apoderado (si corresponde)</label>
-            <input name="apoderado" placeholder="Nombre + teléfono (opcional)" />
-          </div>
-
-          <div class="col12">
-            <label>Comentarios</label>
-            <textarea name="comentarios" placeholder="Lesiones, disponibilidad, experiencia previa, etc."></textarea>
-            <div class="hint">Al enviar, se guarda un registro local (en este navegador). Para recibirlo en correo/planilla, usa una de las opciones del final.</div>
-          </div>
-        </div>
-
-        <div class="btnrow">
-          <button type="submit" class="btn primary">Enviar solicitud</button>
-          <button type="button" class="btn" id="btnViewLocal">Ver solicitudes guardadas</button>
-          <button type="button" class="btn" id="btnClearLocal">Borrar registro local</button>
-        </div>
-
-        <div id="joinMsg" class="hint"></div>
-      </form>
-    </div>
-  </section>
-
-  <!-- PAGOS -->
-  <section id="pagos">
-    <div class="section-title">
-      <div>
-        <h2>Pagos de mensualidad</h2>
-        <p>Datos de transferencia + subida de comprobante. Reemplaza los datos por los reales del club.</p>
-      </div>
-      <div class="hint">Recomendado: incluir “asunto” con nombre del jugador/a</div>
-    </div>
-
-    <div class="card">
-      <div class="paybox">
-        <div class="bank">
-          <div class="tag">Transferencia / Depósito</div>
-
-          <div class="kv" id="bankKV">
-            <div><b>Banco</b><span id="banco">[Tu Banco]</span></div>
-            <div><b>Tipo de cuenta</b><span id="tipo">Cuenta Corriente</span></div>
-            <div><b>N° de cuenta</b><span id="cuenta">12.345.678</span></div>
-            <div><b>RUT</b><span id="rut">12.345.678-9</span></div>
-            <div><b>Nombre</b><span id="nombreCuenta">Club Deportivo Balonmano Copiapó</span></div>
-            <div><b>Correo confirmación</b><span id="correoCuenta">pagos@tudominio.cl</span></div>
-            <div><b>Glosa/Asunto</b><span id="glosa">Mensualidad + Nombre jugador/a</span></div>
-          </div>
-
-          <div class="copy">
-            <button class="btn" type="button" id="btnCopyAll">Copiar datos</button>
-            <a class="btn" href="#unete">¿No estás inscrito? Únete</a>
-          </div>
-
-          <p class="hint" style="margin:10px 0 0">
-            Si quieres “pago automático con tarjeta”, se puede integrar con un gateway (Webpay/Flow/MercadoPago),
-            pero requiere cuenta y configuración del proveedor.
-          </p>
-        </div>
-
-        <div class="upload">
-          <div class="tag" style="background:linear-gradient(90deg,var(--ok), #87f5c0)">Subir comprobante</div>
-
-          <form id="payForm" style="margin-top:10px">
-            <label>Nombre jugador/a</label>
-            <input name="jugador" required placeholder="Ej: Catalina Pérez" />
-
-            <label>Monto pagado (CLP)</label>
-            <input name="monto" required inputmode="numeric" placeholder="Ej: 15000" />
-
-            <label>Mes que pagas</label>
-            <input name="mes" required placeholder="Ej: Diciembre 2025" />
-
-            <label>Comprobante (imagen o PDF)</label>
-            <input name="comprobante" type="file" accept="image/*,application/pdf" />
-
-            <button class="btn primary" type="submit">Registrar pago</button>
-            <div id="payMsg" class="hint"></div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ESTADÍSTICAS -->
-  <section id="estadisticas">
-    <div class="section-title">
-      <div>
-        <h2>Estadísticas deportivas</h2>
-        <p>Ejemplo de panel con gráfico. Puedes cambiar a estadísticas por categoría, jugador/a, torneo, etc.</p>
-      </div>
-      <div class="hint">Editable desde el bloque de datos JS</div>
-    </div>
-
-    <div class="grid">
-      <div class="card" style="grid-column:span 4">
-        <div class="tag" style="background:linear-gradient(90deg,var(--brand), var(--brand2))">Temporada</div>
-        <h3 style="margin:10px 0 6px">Resumen</h3>
-        <p class="hint" id="seasonSummary" style="margin:0"></p>
-      </div>
-
-      <div class="card" style="grid-column:span 8">
-        <canvas id="chartResults" height="110"></canvas>
-      </div>
-    </div>
-  </section>
-
-  <!-- NOTICIAS -->
-  <section id="noticias">
-    <div class="section-title">
-      <div>
-        <h2>Noticias y últimos campeonatos</h2>
-        <p>Publica resultados, experiencias, MVP, fotos destacadas y próximos eventos.</p>
-      </div>
-      <div class="hint">Esto también puede alimentarse desde Instagram / Facebook</div>
-    </div>
-
-    <div class="card">
-      <div class="news" id="newsGrid">
-        <!-- Noticias ejemplo -->
-        <article class="n">
-          <span class="tag">Campeonato</span>
-          <h3>Fecha 1: Buen arranque en fase de grupos</h3>
-          <p>Resumen breve del partido, rival, puntos altos y aprendizaje. Edita este texto por el real.</p>
-          <div class="meta">📅 10 dic 2025 · 🏟️ Copiapó</div>
-        </article>
-
-        <article class="n">
-          <span class="tag" style="background:linear-gradient(90deg,#c7a3ff,#8deaff)">Resultados</span>
-          <h3>Victoria ajustada: defensa sólida en los minutos finales</h3>
-          <p>Cuenta el marcador, goleadores y qué viene para el equipo. Edita aquí.</p>
-          <div class="meta">📅 12 dic 2025 · 🥅 28 - 26</div>
-        </article>
-
-        <article class="n">
-          <span class="tag" style="background:linear-gradient(90deg,#ff7aa2,#ffd1a3)">Próximo</span>
-          <h3>Próximo torneo: inscripción y convocatoria</h3>
-          <p>Fecha, lugar, categorías y llamado a apoyar al club. Edita aquí.</p>
-          <div class="meta">📅 20 dic 2025 · 📣 Convocatoria abierta</div>
-        </article>
-      </div>
-      <p class="hint" style="margin:12px 0 0">
-        Si me pasas tus noticias reales (texto y fechas), te las dejo “pro” con imágenes, etiquetas y links.
-      </p>
-    </div>
-  </section>
+<section id="contacto">
+<h2>Contacto</h2>
+<div class="card">
+<p class="hint">📧 clubbalonmanocopiapo@gmail.com<br>📱 Instagram / WhatsApp</p>
+</div>
+</section>
 </main>
 
 <footer>
-  <div class="container foot">
-    <div>
-      <b>Club Deportivo Balonmano Copiapó</b><br/>
-      <span>© <span id="year"></span> · Todos los derechos reservados</span>
-    </div>
-    <div class="hint">
-      Desarrollado en HTML + CSS + JS (puede alojarse gratis en GitHub Pages)
-    </div>
-  </div>
+<div class="container">
+<b>Club Deportivo Balonmano Copiapó</b><br>
+© <span id="year"></span>
+</div>
 </footer>
 
 <script>
-  // ====== Config rápida (edita aquí) ======
-  const CLUB = {
-    banco: "Banco Estado",
-    tipo: "Cuenta Corriente",
-    cuenta: "12.345.678",
-    rut: "12.345.678-9",
-    nombreCuenta: "Club Deportivo Balonmano Copiapó",
-    correoCuenta: "pagos@tudominio.cl",
-    glosa: "Mensualidad + Nombre jugador/a",
-    mensualidad: 15000
-  };
+document.getElementById("year").textContent=new Date().getFullYear();
 
-  // Datos de ejemplo para gráfico
-  const STATS = {
-    season: "2025",
-    played: 12,
-    won: 8,
-    drawn: 1,
-    lost: 3,
-    goalsFor: 312,
-    goalsAgainst: 280,
-    last5: [1, 1, 0, 1, 0] // 1=win, 0=loss (solo ejemplo)
-  };
+const GALLERY=[
+ {id:"1tktm5oG1teMpRnn4X4qtfbc22y8ZUrLd",title:"Entrenamiento 1",tag:"entrenamientos"},
+ {id:"1x3PiV_gNr65kDo4o-UPzX_E3X5ydH4ev",title:"Entrenamiento 2",tag:"entrenamientos"},
+ {id:"1ss8oOEwQTRAh0kypTs5yr566TBRn7g83",title:"Entrenamiento 3",tag:"entrenamientos"},
+ {id:"1ByOMF9V1LSvtMv9IEJWbt_QuYLxBx_5y",title:"Campeonato 1",tag:"campeonatos"},
+ {id:"17u3Kf7c2Tmkni2gMUcm0ECvA7Mdlxg8p",title:"Campeonato 2",tag:"campeonatos"},
+ {id:"1PH4mHuNgKdV1SHcYbD8OBLAhrtJ-mRCa",title:"Equipo",tag:"campeonatos"}
+];
 
-  // ====== Pintar datos de cuenta ======
-  const setText = (id, v) => document.getElementById(id).textContent = v;
-  setText("banco", CLUB.banco);
-  setText("tipo", CLUB.tipo);
-  setText("cuenta", CLUB.cuenta);
-  setText("rut", CLUB.rut);
-  setText("nombreCuenta", CLUB.nombreCuenta);
-  setText("correoCuenta", CLUB.correoCuenta);
-  setText("glosa", CLUB.glosa);
-  document.getElementById("year").textContent = new Date().getFullYear();
+const modal=document.getElementById("galleryModal");
+const grid=document.getElementById("galleryGrid");
+const openBtn=document.getElementById("openGallery");
+const closeBg=document.getElementById("closeGallery");
+const btnClose=document.getElementById("btnCloseModal");
 
-  // ====== Scroll botones ======
-  document.getElementById("btnScrollFotos").addEventListener("click", ()=> document.getElementById("fotos").scrollIntoView({behavior:"smooth"}));
-  document.getElementById("btnScrollStats").addEventListener("click", ()=> document.getElementById("estadisticas").scrollIntoView({behavior:"smooth"}));
+const src=id=>`https://drive.google.com/uc?export=view&id=${id}`;
 
-  // ====== Copiar datos de pago ======
-  document.getElementById("btnCopyAll").addEventListener("click", async () => {
-    const txt =
-`Banco: ${CLUB.banco}
-Tipo: ${CLUB.tipo}
-Cuenta: ${CLUB.cuenta}
-RUT: ${CLUB.rut}
-Nombre: ${CLUB.nombreCuenta}
-Correo: ${CLUB.correoCuenta}
-Glosa: ${CLUB.glosa}
-Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
-    try{
-      await navigator.clipboard.writeText(txt);
-      alert("Datos copiados ✅");
-    }catch(e){
-      alert("No se pudo copiar automáticamente. Copia manualmente desde la sección.");
-    }
-  });
+function render(filter="all"){
+ grid.innerHTML="";
+ GALLERY.filter(x=>filter==="all"||x.tag===filter).forEach(x=>{
+  const d=document.createElement("div");
+  d.className="gItem";
+  d.innerHTML=`<img src="${src(x.id)}"><div class="gCap">${x.title}</div>`;
+  grid.appendChild(d);
+ });
+}
 
-  // ====== Registro local (sin backend) - Únete ======
-  const LS_JOIN = "bm_copiapo_join_requests_v1";
-  const joinForm = document.getElementById("joinForm");
-  const joinMsg = document.getElementById("joinMsg");
+openBtn.onclick=()=>{modal.classList.add("show");render("all")};
+closeBg.onclick=btnClose.onclick=()=>modal.classList.remove("show");
 
-  joinForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const fd = new FormData(joinForm);
-    const obj = Object.fromEntries(fd.entries());
-    obj._ts = new Date().toISOString();
-
-    const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
-    arr.unshift(obj);
-    localStorage.setItem(LS_JOIN, JSON.stringify(arr));
-
-    joinMsg.textContent = "Solicitud guardada localmente ✅ (ver botón 'Ver solicitudes guardadas').";
-    joinForm.reset();
-  });
-
-  document.getElementById("btnViewLocal").addEventListener("click", () => {
-    const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
-    if(!arr.length){ alert("No hay solicitudes guardadas aún."); return; }
-    const preview = arr.slice(0,5).map((x,i)=> `${i+1}. ${x.nombre} (${x.categoria}) - ${x.telefono} - ${x.correo}`).join("\n");
-    alert("Últimas solicitudes (máx 5):\n\n" + preview + "\n\n*Esto está en tu navegador. Para recibir en correo/planilla, usa Formspree/Google Forms.");
-  });
-
-  document.getElementById("btnClearLocal").addEventListener("click", () => {
-    if(confirm("¿Seguro que deseas borrar el registro local de solicitudes?")){
-      localStorage.removeItem(LS_JOIN);
-      joinMsg.textContent = "Registro local borrado.";
-    }
-  });
-
-  // ====== Registro local (sin backend) - Pagos ======
-  const LS_PAY = "bm_copiapo_payments_v1";
-  const payForm = document.getElementById("payForm");
-  const payMsg = document.getElementById("payMsg");
-
-  payForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const fd = new FormData(payForm);
-    const obj = {
-      jugador: fd.get("jugador"),
-      monto: fd.get("monto"),
-      mes: fd.get("mes"),
-      comprobanteNombre: fd.get("comprobante")?.name || "",
-      _ts: new Date().toISOString()
-    };
-
-    const arr = JSON.parse(localStorage.getItem(LS_PAY) || "[]");
-    arr.unshift(obj);
-    localStorage.setItem(LS_PAY, JSON.stringify(arr));
-
-    payMsg.textContent = "Pago registrado localmente ✅ (ideal: conectarlo a correo/planilla).";
-    payForm.reset();
-  });
-
-  // ====== Estadísticas: resumen + gráfico ======
-  const gd = (a,b)=> (b===0?0: (a/b)*100);
-  document.getElementById("seasonSummary").textContent =
-    `Temporada ${STATS.season}: PJ ${STATS.played} · G ${STATS.won} · E ${STATS.drawn} · P ${STATS.lost} · GF ${STATS.goalsFor} · GC ${STATS.goalsAgainst} · Rendimiento ${gd((STATS.won*2 + STATS.drawn), (STATS.played*2)).toFixed(0)}%`;
-
-  const ctx = document.getElementById("chartResults");
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Ganados', 'Empatados', 'Perdidos'],
-      datasets: [{
-        label: 'Partidos',
-        data: [STATS.won, STATS.drawn, STATS.lost],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { labels: { color: '#eaf1ff' } }
-      },
-      scales: {
-        x: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } },
-        y: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } }
-      }
-    }
-  });
+document.querySelectorAll(".filter").forEach(b=>{
+ b.onclick=()=>{
+  document.querySelectorAll(".filter").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  render(b.dataset.filter);
+ }
+});
 </script>
 </body>
 </html>
