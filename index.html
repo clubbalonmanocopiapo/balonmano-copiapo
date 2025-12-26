@@ -360,17 +360,17 @@
     <div class="section-title">
       <div>
         <h2>Fotos del club</h2>
-        <p>Reemplaza estos “bloques” por fotos reales (o puedes convertirlos en imágenes con rutas locales).</p>
+        <p>Esta galería se carga automáticamente desde una carpeta de Google Drive.</p>
       </div>
-      <div class="hint">Tip: puedes usar Google Photos/Drive y enlazar álbumes</div>
+      <div class="hint">Tip: agrega fotos a la carpeta y recarga la página</div>
     </div>
 
     <div class="card">
-     <div class="gallery" id="galleryGrid">
-    <!-- Se rellena desde Drive -->
+      <div class="gallery" id="galleryGrid">
+        <!-- Se rellena desde Drive -->
       </div>
       <p class="hint" style="margin:12px 0 0">
-        Si quieres, te dejo esta misma galería conectada a una carpeta (Drive) o a un CMS simple.
+        Si agregas nuevas fotos a Drive, se verán automáticamente al recargar.
       </p>
     </div>
   </section>
@@ -380,7 +380,7 @@
     <div class="section-title">
       <div>
         <h2>Únete al club</h2>
-        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; al final te explico cómo enviarlo a correo/Google Sheets).</p>
+        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; si quieres lo conectamos a Sheets).</p>
       </div>
       <div class="hint">Campos sugeridos para federación y control interno</div>
     </div>
@@ -445,7 +445,7 @@
           <div class="col12">
             <label>Comentarios</label>
             <textarea name="comentarios" placeholder="Lesiones, disponibilidad, experiencia previa, etc."></textarea>
-            <div class="hint">Al enviar, se guarda un registro local (en este navegador). Para recibirlo en correo/planilla, usa una de las opciones del final.</div>
+            <div class="hint">Al enviar, se guarda un registro local (en este navegador). Para recibirlo en planilla, lo conectamos a Google Sheets.</div>
           </div>
         </div>
 
@@ -555,7 +555,6 @@
 
     <div class="card">
       <div class="news" id="newsGrid">
-        <!-- Noticias ejemplo -->
         <article class="n">
           <span class="tag">Campeonato</span>
           <h3>Fecha 1: Buen arranque en fase de grupos</h3>
@@ -617,12 +616,19 @@
     drawn: 1,
     lost: 3,
     goalsFor: 312,
-    goalsAgainst: 280,
-    last5: [1, 1, 0, 1, 0] // 1=win, 0=loss (solo ejemplo)
+    goalsAgainst: 280
   };
 
-  // ====== Pintar datos de cuenta ======
+  // ====== Helpers ======
   const setText = (id, v) => document.getElementById(id).textContent = v;
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, (m) => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[m]));
+  }
+
+  // ====== Pintar datos de cuenta ======
   setText("banco", CLUB.banco);
   setText("tipo", CLUB.tipo);
   setText("cuenta", CLUB.cuenta);
@@ -678,7 +684,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
     if(!arr.length){ alert("No hay solicitudes guardadas aún."); return; }
     const preview = arr.slice(0,5).map((x,i)=> `${i+1}. ${x.nombre} (${x.categoria}) - ${x.telefono} - ${x.correo}`).join("\n");
-    alert("Últimas solicitudes (máx 5):\n\n" + preview + "\n\n*Esto está en tu navegador. Para recibir en correo/planilla, usa Formspree/Google Forms.");
+    alert("Últimas solicitudes (máx 5):\n\n" + preview);
   });
 
   document.getElementById("btnClearLocal").addEventListener("click", () => {
@@ -740,121 +746,90 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     }
   });
 
-  function loadGalleryFromDriveJSONP(){
-  const grid = document.getElementById("galleryGrid");
-  if (!grid) {
-    console.warn("No existe #galleryGrid (no se puede cargar galería)");
-    return;
-  }
+  // ====== Drive (Apps Script) - Galería ======
+  const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbyJz0uhl1E5eW9aWve0d1TiquKFm6-fxFhefwkbmwcZkjeFlXIxx5ZMwE3R3uwW4uk/exec";
+  const DRIVE_FOLDER_ID_FOTOS = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
 
-  grid.innerHTML = `
-    <div class="ph"><div class="cap">Cargando…</div></div>
-    <div class="ph"><div class="cap">Cargando…</div></div>
-    <div class="ph"><div class="cap">Cargando…</div></div>
-    <div class="ph"><div class="cap">Cargando…</div></div>
-    <div class="ph"><div class="cap">Cargando…</div></div>
-    <div class="ph"><div class="cap">Cargando…</div></div>
-  `;
+  window.renderGalleryFromDrive = function(data){
+    try{
+      window.__driveJsonpOk = true;
+      console.log("JSONP callback recibido ✅", data);
 
-  window.__driveJsonpOk = false;
+      const grid = document.getElementById("galleryGrid");
+      if (!grid) return;
 
-  const old = document.getElementById("driveJsonp");
-  if (old) old.remove();
+      if (!data || data.error) {
+        grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">${escapeHtml((data && data.error) ? String(data.error) : "Respuesta vacía")}</div></div>`;
+        return;
+      }
 
-  const cbName = "__bmDriveCb";
-  window[cbName] = window.renderGalleryFromDrive;
+      const items = (data.items || []).slice(0, 24);
+      if (!items.length) {
+        grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Sin fotos aún</div></div>`;
+        return;
+      }
 
-  const u = new URL(DRIVE_API_URL);
-  u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
-  u.searchParams.set("callback", cbName);
-  u.searchParams.set("v", Date.now());
+      grid.innerHTML = items.map(it => `
+        <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+          <img src="${it.direct}" alt="${escapeHtml(it.name || "")}" style="width:100%;height:100%;object-fit:cover;display:block" />
+          <div class="cap">${escapeHtml(String(it.name || "").replace(/\.(jpg|jpeg|png|webp)$/i,""))}</div>
+        </a>
+      `).join("");
 
-  const s = document.createElement("script");
-  s.id = "driveJsonp";
-  s.src = u.toString();
-
-  console.log("JSONP URL:", s.src);
-  s.onload = () => console.log("JSONP script cargó (onload) ✅");
-  s.onerror = (ev) => {
-    console.error("JSONP script error (onerror) ❌", ev);
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
+    }catch(err){
+      console.error("Error renderGalleryFromDrive:", err);
+      const grid = document.getElementById("galleryGrid");
+      if (grid) grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error renderizando fotos</div></div>`;
+    }
   };
 
-  document.body.appendChild(s);
-
-  setTimeout(() => {
-    if (!window.__driveJsonpOk) {
-      console.warn("JSONP no llamó callback ❌");
-      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">No se ejecutó el callback. Revisa permisos o consola.</div></div>`;
-    }
-  }, 2500);
-}
-
-// Ejecutar al cargar la página
-loadGalleryFromDriveJSONP();
-
-// ====== Drive "API" (Apps Script) ======
-const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbyJz0uhl1E5eW9aWve0d1TiquKFm6-fxFhefwkbmwcZkjeFlXIxx5ZMwE3R3uwW4uk/exec";
-const DRIVE_FOLDER_ID_FOTOS = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
-
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g, (m) => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-  }[m]));
-}
-
-// Callback GLOBAL completo (todo el render va dentro)
-window.renderGalleryFromDrive = function(data){
-  try {
-    window.__driveJsonpOk = true;
-    console.log("JSONP callback recibido ✅", data);
-
+  function loadGalleryFromDriveJSONP(){
     const grid = document.getElementById("galleryGrid");
-    if (!grid) {
-      console.warn("No existe #galleryGrid");
-      return;
-    }
+    if (!grid) return;
 
-    if (!data || data.error) {
-      grid.innerHTML =
-        `<div class="ph" style="grid-column:span 12">
-          <div class="cap">${escapeHtml((data && data.error) ? String(data.error) : "Respuesta vacía")}</div>
-        </div>`;
-      return;
-    }
+    grid.innerHTML = `
+      <div class="ph"><div class="cap">Cargando…</div></div>
+      <div class="ph"><div class="cap">Cargando…</div></div>
+      <div class="ph"><div class="cap">Cargando…</div></div>
+      <div class="ph"><div class="cap">Cargando…</div></div>
+      <div class="ph"><div class="cap">Cargando…</div></div>
+      <div class="ph"><div class="cap">Cargando…</div></div>
+    `;
 
-    const items = (data.items || []).slice(0, 24);
-    console.log("Items:", items.length);
+    window.__driveJsonpOk = false;
 
-    if (!items.length) {
-      grid.innerHTML =
-        `<div class="ph" style="grid-column:span 12">
-          <div class="cap">Sin fotos aún</div>
-        </div>`;
-      return;
-    }
+    const old = document.getElementById("driveJsonp");
+    if (old) old.remove();
 
-    grid.innerHTML = items.map(it => `
-      <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
-        <img src="${it.direct}" alt="${escapeHtml(it.name || "")}" style="width:100%;height:100%;object-fit:cover;display:block" />
-        <div class="cap">${escapeHtml(String(it.name || "").replace(/\.(jpg|jpeg|png|webp)$/i,""))}</div>
-      </a>
-    `).join("");
+    const cbName = "__bmDriveCb";
+    window[cbName] = window.renderGalleryFromDrive;
 
-  } catch (err) {
-    console.error("Error dentro de renderGalleryFromDrive:", err);
-    const grid = document.getElementById("galleryGrid");
-    if (grid) {
-      grid.innerHTML =
-        `<div class="ph" style="grid-column:span 12">
-          <div class="cap">Error renderizando fotos: ${escapeHtml(String(err))}</div>
-        </div>`;
-    }
+    const u = new URL(DRIVE_API_URL);
+    u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
+    u.searchParams.set("callback", cbName);
+    u.searchParams.set("v", Date.now());
+
+    const s = document.createElement("script");
+    s.id = "driveJsonp";
+    s.src = u.toString();
+
+    console.log("JSONP URL:", s.src);
+    s.onload = () => console.log("JSONP script cargó (onload) ✅");
+    s.onerror = () => {
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
+    };
+
+    document.body.appendChild(s);
+
+    setTimeout(() => {
+      if (!window.__driveJsonpOk) {
+        grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">No se ejecutó el callback. Revisa consola.</div></div>`;
+      }
+    }, 2500);
   }
-};
 
-
-  
+  // Ejecutar galería al cargar
+  loadGalleryFromDriveJSONP();
 </script>
 </body>
 </html>
