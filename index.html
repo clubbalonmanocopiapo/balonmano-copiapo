@@ -172,4 +172,110 @@
 <div class="bm-modal" id="bmTrainingModal" aria-hidden="true">
   <div class="bm-modal-backdrop" id="bmTrainingClose"></div>
   <div class="bm-modal-panel" role="dialog" aria-modal="true" aria-label="Galería Entrenamientos">
-    <div class
+    <div class="bm-modal-head">
+      <div>
+        <strong>Entrenamientos</strong><br>
+        <span class="hint">Fotos alojadas en Google Drive</span>
+      </div>
+      <button class="btn" type="button" id="bmTrainingCloseBtn">Cerrar ✕</button>
+    </div>
+
+    <div class="bm-modal-grid" id="bmTrainingGrid"></div>
+  </div>
+</div>
+
+<script>
+  // ===== CONFIG =====
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Tu carpeta Drive (Entrenamientos)
+  const TRAINING_FOLDER_ID = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
+
+  // Pega aquí la URL de tu Apps Script publicado como Web App (exec)
+  const TRAINING_FEED_URL = "PON_AQUI_TU_URL_DE_APPS_SCRIPT";
+
+  // Drive thumbnail (funciona bien en GitHub Pages)
+  const driveThumb = (id, w=1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
+
+  // ===== ELEMENTOS =====
+  const bmTrainingCover = document.getElementById("bmTrainingCover");
+  const bmTrainingOpen = document.getElementById("bmTrainingOpen");
+  const bmTrainingModal = document.getElementById("bmTrainingModal");
+  const bmTrainingClose = document.getElementById("bmTrainingClose");
+  const bmTrainingCloseBtn = document.getElementById("bmTrainingCloseBtn");
+  const bmTrainingGrid = document.getElementById("bmTrainingGrid");
+
+  let TRAINING_PHOTOS = []; // se carga desde Apps Script
+
+  async function loadTrainingFromDriveFolder(){
+    // Si no pegaste la URL, no hacemos fetch
+    if (!TRAINING_FEED_URL || TRAINING_FEED_URL.includes("PON_AQUI")) {
+      // fallback: deja una portada vacía
+      bmTrainingCover.src = "";
+      bmTrainingCover.alt = "Configura TRAINING_FEED_URL";
+      return;
+    }
+
+    const url = `${TRAINING_FEED_URL}?folder=${encodeURIComponent(TRAINING_FOLDER_ID)}`;
+    const res = await fetch(url, { cache: "no-store" });
+    const data = await res.json();
+
+    if (!Array.isArray(data) || data.length === 0) {
+      TRAINING_PHOTOS = [];
+      bmTrainingCover.src = "";
+      return;
+    }
+
+    // data = [{id, name}, ...]
+    TRAINING_PHOTOS = data.map((x, i) => ({
+      id: x.id,
+      title: x.name ? x.name.replace(/\.[^/.]+$/, "") : `Entrenamiento ${i+1}`
+    }));
+
+    // Portada = primera foto
+    bmTrainingCover.src = driveThumb(TRAINING_PHOTOS[0].id, 1200);
+    bmTrainingCover.referrerPolicy = "no-referrer";
+  }
+
+  function bmRenderTraining(){
+    bmTrainingGrid.innerHTML = "";
+
+    if (!TRAINING_PHOTOS.length) {
+      bmTrainingGrid.innerHTML = `<div class="hint" style="padding:10px">No se encontraron fotos. Revisa permisos de la carpeta y que TRAINING_FEED_URL esté configurado.</div>`;
+      return;
+    }
+
+    TRAINING_PHOTOS.forEach((p)=>{
+      const div = document.createElement("div");
+      div.className = "bm-modal-item";
+      div.innerHTML = `
+        <img alt="${p.title}" loading="lazy" referrerpolicy="no-referrer">
+        <div class="bm-modal-cap">${p.title}</div>
+      `;
+      div.querySelector("img").src = driveThumb(p.id, 1200);
+      bmTrainingGrid.appendChild(div);
+    });
+  }
+
+  function bmOpenTraining(){
+    bmTrainingModal.classList.add("show");
+    bmTrainingModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+    bmRenderTraining();
+  }
+  function bmCloseTraining(){
+    bmTrainingModal.classList.remove("show");
+    bmTrainingModal.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
+
+  bmTrainingOpen.addEventListener("click", bmOpenTraining);
+  bmTrainingClose.addEventListener("click", bmCloseTraining);
+  bmTrainingCloseBtn.addEventListener("click", bmCloseTraining);
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && bmTrainingModal.classList.contains("show")) bmCloseTraining(); });
+
+  // Cargar automáticamente al iniciar (para que ya se vea portada)
+  loadTrainingFromDriveFolder();
+</script>
+</body>
+</html>
