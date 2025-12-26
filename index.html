@@ -795,22 +795,21 @@ function loadGalleryFromDriveJSONP(){
   if (old) old.remove();
 
   const s = document.createElement("script");
-  s.id = "driveJsonp";
+s.id = "driveJsonp";
 
-  // anti-cache
-  const cacheBust = Date.now();
+const u = new URL(DRIVE_API_URL);
+u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
+u.searchParams.set("callback", "renderGalleryFromDrive");
+u.searchParams.set("v", Date.now()); // anti-cache
 
-  s.src =
-    `${DRIVE_API_URL}` +
-    `?folderId=${encodeURIComponent(DRIVE_FOLDER_ID_FOTOS)}` +
-    `&callback=renderGalleryFromDrive` +
-    `&v=${cacheBust}`;
+s.src = u.toString();
 
-  s.onerror = () => {
-    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
-  };
+s.onerror = () => {
+  grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error cargando fotos (JSONP)</div></div>`;
+};
 
-  document.body.appendChild(s);
+document.body.appendChild(s);
+
 
   // si el script carga pero NO llama al callback (vino HTML/login)
   setTimeout(() => {
