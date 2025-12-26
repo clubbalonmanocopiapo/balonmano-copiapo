@@ -6,12 +6,10 @@
   <title>Club Deportivo Balonmano Copiapó</title>
   <meta name="description" content="Sitio oficial del Club Deportivo Balonmano Copiapó: fotos, inscripciones, pagos, estadísticas y noticias." />
 
-  <!-- Tipografía -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Chart.js para estadísticas -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -71,10 +69,7 @@
       color:#051021 !important;border:none !important;
     }
 
-    /* Hero */
-    .hero{
-      padding:42px 0 26px;
-    }
+    .hero{ padding:42px 0 26px; }
     .hero-grid{
       display:grid;grid-template-columns:1.25fr .75fr;gap:18px;
       align-items:stretch;
@@ -116,9 +111,7 @@
       display:flex;flex-direction:column;justify-content:space-between;
       gap:14px;
     }
-    .quick{
-      display:grid;gap:10px;
-    }
+    .quick{ display:grid;gap:10px; }
     .quick .item{
       border:1px solid var(--border);
       background:rgba(255,255,255,.03);
@@ -144,7 +137,6 @@
       color:#051021;border:none;
     }
 
-    /* Sections */
     section{padding:26px 0}
     .section-title{
       display:flex;align-items:flex-end;justify-content:space-between;gap:14px;
@@ -166,7 +158,7 @@
       padding:16px;
     }
 
-    /* Gallery */
+    /* Gallery placeholders */
     .gallery{
       display:grid;
       grid-template-columns:repeat(12,1fr);
@@ -180,6 +172,7 @@
       background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       min-height:140px;
       position:relative;
+      cursor:pointer;
     }
     .ph .cap{
       position:absolute;left:10px;bottom:10px;
@@ -188,6 +181,16 @@
       border:1px solid rgba(255,255,255,.12);
       font-size:12px;color:var(--text);
       backdrop-filter: blur(8px);
+    }
+
+    /* NEW: thumbnail img inside placeholder */
+    .ph img{
+      width:100%;
+      height:100%;
+      min-height:140px;
+      object-fit:cover;
+      display:block;
+      background:rgba(0,0,0,.12);
     }
 
     /* Forms */
@@ -260,7 +263,6 @@
     .n h3{margin:10px 0 6px;font-size:16px}
     .n p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
 
-    /* Footer */
     footer{
       padding:20px 0 34px;
       border-top:1px solid var(--border);
@@ -286,6 +288,67 @@
       .news .n{grid-column:span 12}
       .col6,.col4,.col8{grid-column:span 12}
     }
+
+    /* ===== NEW: Modal for Training Gallery (keeps original format intact) ===== */
+    .bm-modal{
+      display:none;
+      position:fixed; inset:0;
+      z-index:9999;
+    }
+    .bm-modal.show{ display:block; }
+    .bm-modal-backdrop{
+      position:absolute; inset:0;
+      background:rgba(0,0,0,.65);
+      backdrop-filter: blur(8px);
+    }
+    .bm-modal-panel{
+      position:relative;
+      width:min(980px, calc(100% - 22px));
+      margin:22px auto;
+      background:rgba(15,27,47,.92);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
+      padding:14px;
+      max-height: calc(100vh - 44px);
+      overflow:auto;
+    }
+    .bm-modal-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:6px 6px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .bm-modal-grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:10px;
+      padding:12px 6px 6px;
+    }
+    .bm-modal-item{
+      grid-column:span 4;
+      border-radius:16px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      position:relative;
+    }
+    .bm-modal-item img{
+      width:100%;
+      height:190px;
+      object-fit:cover;
+      display:block;
+      background:rgba(0,0,0,.12);
+    }
+    .bm-modal-cap{
+      position:absolute;left:10px;bottom:10px;
+      padding:6px 10px;border-radius:999px;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:12px;color:var(--text);
+      backdrop-filter: blur(8px);
+    }
+    @media(max-width: 980px){ .bm-modal-item{ grid-column:span 6; } }
+    @media(max-width: 640px){ .bm-modal-item{ grid-column:span 12; } }
   </style>
 </head>
 
@@ -360,23 +423,29 @@
     <div class="section-title">
       <div>
         <h2>Fotos del club</h2>
-        <p>Reemplaza estos “bloques” por fotos reales (o puedes convertirlos en imágenes con rutas locales).</p>
+        <p>En el bloque “Entrenamiento” se muestra 1 imagen. Al hacer click, se abre la galería de entrenamientos desde Drive.</p>
       </div>
-      <div class="hint">Tip: puedes usar Google Photos/Drive y enlazar álbumes</div>
+      <div class="hint">Drive</div>
     </div>
 
     <div class="card">
       <div class="gallery">
-        <!-- Para usar imágenes reales: cambia el div por <img src="ruta.jpg" ...> -->
-        <div class="ph"><div class="cap">Entrenamiento</div></div>
+        <!-- ✅ ONLY CHANGE: Entrenamiento now shows a real image + click opens training gallery -->
+        <div class="ph" id="bmTrainingOpen" title="Click para ver galería de Entrenamientos">
+          <img id="bmTrainingCover" alt="Entrenamiento">
+          <div class="cap">Entrenamiento</div>
+        </div>
+
+        <!-- The rest keeps original placeholders (format unchanged) -->
         <div class="ph"><div class="cap">Campeonato</div></div>
         <div class="ph"><div class="cap">Equipo</div></div>
         <div class="ph"><div class="cap">Infantil</div></div>
         <div class="ph"><div class="cap">Juvenil</div></div>
         <div class="ph"><div class="cap">Adultos</div></div>
       </div>
+
       <p class="hint" style="margin:12px 0 0">
-        Si quieres, te dejo esta misma galería conectada a una carpeta (Drive) o a un CMS simple.
+        Si quieres, puedo dejar lo mismo para “Campeonato” (portada + galería).
       </p>
     </div>
   </section>
@@ -386,9 +455,9 @@
     <div class="section-title">
       <div>
         <h2>Únete al club</h2>
-        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; al final te explico cómo enviarlo a correo/Google Sheets).</p>
+        <p>Formulario para incorporar nuevas personas. (Por defecto guarda localmente; luego puedes conectarlo a Google Forms/Sheets).</p>
       </div>
-      <div class="hint">Campos sugeridos para federación y control interno</div>
+      <div class="hint">Registro</div>
     </div>
 
     <div class="card">
@@ -451,7 +520,7 @@
           <div class="col12">
             <label>Comentarios</label>
             <textarea name="comentarios" placeholder="Lesiones, disponibilidad, experiencia previa, etc."></textarea>
-            <div class="hint">Al enviar, se guarda un registro local (en este navegador). Para recibirlo en correo/planilla, usa una de las opciones del final.</div>
+            <div class="hint">Al enviar, se guarda un registro local (en este navegador).</div>
           </div>
         </div>
 
@@ -473,7 +542,7 @@
         <h2>Pagos de mensualidad</h2>
         <p>Datos de transferencia + subida de comprobante. Reemplaza los datos por los reales del club.</p>
       </div>
-      <div class="hint">Recomendado: incluir “asunto” con nombre del jugador/a</div>
+      <div class="hint">Pagos</div>
     </div>
 
     <div class="card">
@@ -495,11 +564,6 @@
             <button class="btn" type="button" id="btnCopyAll">Copiar datos</button>
             <a class="btn" href="#unete">¿No estás inscrito? Únete</a>
           </div>
-
-          <p class="hint" style="margin:10px 0 0">
-            Si quieres “pago automático con tarjeta”, se puede integrar con un gateway (Webpay/Flow/MercadoPago),
-            pero requiere cuenta y configuración del proveedor.
-          </p>
         </div>
 
         <div class="upload">
@@ -533,7 +597,7 @@
         <h2>Estadísticas deportivas</h2>
         <p>Ejemplo de panel con gráfico. Puedes cambiar a estadísticas por categoría, jugador/a, torneo, etc.</p>
       </div>
-      <div class="hint">Editable desde el bloque de datos JS</div>
+      <div class="hint">Stats</div>
     </div>
 
     <div class="grid">
@@ -556,36 +620,32 @@
         <h2>Noticias y últimos campeonatos</h2>
         <p>Publica resultados, experiencias, MVP, fotos destacadas y próximos eventos.</p>
       </div>
-      <div class="hint">Esto también puede alimentarse desde Instagram / Facebook</div>
+      <div class="hint">Noticias</div>
     </div>
 
     <div class="card">
       <div class="news" id="newsGrid">
-        <!-- Noticias ejemplo -->
         <article class="n">
           <span class="tag">Campeonato</span>
           <h3>Fecha 1: Buen arranque en fase de grupos</h3>
-          <p>Resumen breve del partido, rival, puntos altos y aprendizaje. Edita este texto por el real.</p>
+          <p>Resumen breve del partido, rival, puntos altos y aprendizaje.</p>
           <div class="meta">📅 10 dic 2025 · 🏟️ Copiapó</div>
         </article>
 
         <article class="n">
           <span class="tag" style="background:linear-gradient(90deg,#c7a3ff,#8deaff)">Resultados</span>
           <h3>Victoria ajustada: defensa sólida en los minutos finales</h3>
-          <p>Cuenta el marcador, goleadores y qué viene para el equipo. Edita aquí.</p>
+          <p>Cuenta el marcador, goleadores y qué viene para el equipo.</p>
           <div class="meta">📅 12 dic 2025 · 🥅 28 - 26</div>
         </article>
 
         <article class="n">
           <span class="tag" style="background:linear-gradient(90deg,#ff7aa2,#ffd1a3)">Próximo</span>
           <h3>Próximo torneo: inscripción y convocatoria</h3>
-          <p>Fecha, lugar, categorías y llamado a apoyar al club. Edita aquí.</p>
+          <p>Fecha, lugar, categorías y llamado a apoyar al club.</p>
           <div class="meta">📅 20 dic 2025 · 📣 Convocatoria abierta</div>
         </article>
       </div>
-      <p class="hint" style="margin:12px 0 0">
-        Si me pasas tus noticias reales (texto y fechas), te las dejo “pro” con imágenes, etiquetas y links.
-      </p>
     </div>
   </section>
 </main>
@@ -597,10 +657,26 @@
       <span>© <span id="year"></span> · Todos los derechos reservados</span>
     </div>
     <div class="hint">
-      Desarrollado en HTML + CSS + JS (puede alojarse gratis en GitHub Pages)
+      Desarrollado en HTML + CSS + JS
     </div>
   </div>
 </footer>
+
+<!-- ===== NEW: Training Modal (ONLY for Entrenamiento) ===== -->
+<div class="bm-modal" id="bmTrainingModal" aria-hidden="true">
+  <div class="bm-modal-backdrop" id="bmTrainingClose"></div>
+  <div class="bm-modal-panel" role="dialog" aria-modal="true" aria-label="Galería Entrenamientos">
+    <div class="bm-modal-head">
+      <div>
+        <strong>Entrenamientos</strong><br>
+        <span class="hint">Fotos alojadas en Google Drive</span>
+      </div>
+      <button class="btn" type="button" id="bmTrainingCloseBtn">Cerrar ✕</button>
+    </div>
+
+    <div class="bm-modal-grid" id="bmTrainingGrid"></div>
+  </div>
+</div>
 
 <script>
   // ====== Config rápida (edita aquí) ======
@@ -615,7 +691,6 @@
     mensualidad: 15000
   };
 
-  // Datos de ejemplo para gráfico
   const STATS = {
     season: "2025",
     played: 12,
@@ -623,11 +698,66 @@
     drawn: 1,
     lost: 3,
     goalsFor: 312,
-    goalsAgainst: 280,
-    last5: [1, 1, 0, 1, 0] // 1=win, 0=loss (solo ejemplo)
+    goalsAgainst: 280
   };
 
-  // ====== Pintar datos de cuenta ======
+  // ====== Drive helper (thumbnail works better in GitHub Pages) ======
+  const driveThumb = (id, w=1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
+
+  // ====== TRAINING GALLERY (from your Drive IDs) ======
+  // Use ONLY training photos here (you can add more IDs anytime)
+  const TRAINING_PHOTOS = [
+    { id:"1tktm5oG1teMpRnn4X4qtfbc22y8ZUrLd", title:"Entrenamiento 1" },
+    { id:"1x3PiV_gNr65kDo4o-UPzX_E3X5ydH4ev", title:"Entrenamiento 2" },
+    { id:"1ss8oOEwQTRAh0kypTs5yr566TBRn7g83", title:"Entrenamiento 3" }
+  ];
+
+  // ====== Set training cover (single image) ======
+  const bmTrainingCover = document.getElementById("bmTrainingCover");
+  bmTrainingCover.src = driveThumb(TRAINING_PHOTOS[0].id, 1200);
+  bmTrainingCover.referrerPolicy = "no-referrer";
+
+  // ====== Training modal open/close ======
+  const bmTrainingOpen = document.getElementById("bmTrainingOpen");
+  const bmTrainingModal = document.getElementById("bmTrainingModal");
+  const bmTrainingClose = document.getElementById("bmTrainingClose");
+  const bmTrainingCloseBtn = document.getElementById("bmTrainingCloseBtn");
+  const bmTrainingGrid = document.getElementById("bmTrainingGrid");
+
+  function bmOpenTraining(){
+    bmTrainingModal.classList.add("show");
+    bmTrainingModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+    bmRenderTraining();
+  }
+  function bmCloseTraining(){
+    bmTrainingModal.classList.remove("show");
+    bmTrainingModal.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
+
+  function bmRenderTraining(){
+    bmTrainingGrid.innerHTML = "";
+    TRAINING_PHOTOS.forEach((p)=>{
+      const div = document.createElement("div");
+      div.className = "bm-modal-item";
+      div.innerHTML = `
+        <img alt="${p.title}" loading="lazy" referrerpolicy="no-referrer">
+        <div class="bm-modal-cap">${p.title}</div>
+      `;
+      const img = div.querySelector("img");
+      img.src = driveThumb(p.id, 1200);
+      bmTrainingGrid.appendChild(div);
+    });
+  }
+
+  bmTrainingOpen.addEventListener("click", bmOpenTraining);
+  bmTrainingOpen.addEventListener("keydown", (e)=>{ if(e.key==="Enter" || e.key===" ") bmOpenTraining(); });
+  bmTrainingClose.addEventListener("click", bmCloseTraining);
+  bmTrainingCloseBtn.addEventListener("click", bmCloseTraining);
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && bmTrainingModal.classList.contains("show")) bmCloseTraining(); });
+
+  // ====== Bank info paint ======
   const setText = (id, v) => document.getElementById(id).textContent = v;
   setText("banco", CLUB.banco);
   setText("tipo", CLUB.tipo);
@@ -638,11 +768,11 @@
   setText("glosa", CLUB.glosa);
   document.getElementById("year").textContent = new Date().getFullYear();
 
-  // ====== Scroll botones ======
+  // ====== Scroll buttons ======
   document.getElementById("btnScrollFotos").addEventListener("click", ()=> document.getElementById("fotos").scrollIntoView({behavior:"smooth"}));
   document.getElementById("btnScrollStats").addEventListener("click", ()=> document.getElementById("estadisticas").scrollIntoView({behavior:"smooth"}));
 
-  // ====== Copiar datos de pago ======
+  // ====== Copy bank data ======
   document.getElementById("btnCopyAll").addEventListener("click", async () => {
     const txt =
 `Banco: ${CLUB.banco}
@@ -661,7 +791,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     }
   });
 
-  // ====== Registro local (sin backend) - Únete ======
+  // ====== Local storage join ======
   const LS_JOIN = "bm_copiapo_join_requests_v1";
   const joinForm = document.getElementById("joinForm");
   const joinMsg = document.getElementById("joinMsg");
@@ -676,7 +806,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     arr.unshift(obj);
     localStorage.setItem(LS_JOIN, JSON.stringify(arr));
 
-    joinMsg.textContent = "Solicitud guardada localmente ✅ (ver botón 'Ver solicitudes guardadas').";
+    joinMsg.textContent = "Solicitud guardada localmente ✅";
     joinForm.reset();
   });
 
@@ -684,7 +814,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     const arr = JSON.parse(localStorage.getItem(LS_JOIN) || "[]");
     if(!arr.length){ alert("No hay solicitudes guardadas aún."); return; }
     const preview = arr.slice(0,5).map((x,i)=> `${i+1}. ${x.nombre} (${x.categoria}) - ${x.telefono} - ${x.correo}`).join("\n");
-    alert("Últimas solicitudes (máx 5):\n\n" + preview + "\n\n*Esto está en tu navegador. Para recibir en correo/planilla, usa Formspree/Google Forms.");
+    alert("Últimas solicitudes (máx 5):\n\n" + preview);
   });
 
   document.getElementById("btnClearLocal").addEventListener("click", () => {
@@ -694,7 +824,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     }
   });
 
-  // ====== Registro local (sin backend) - Pagos ======
+  // ====== Local storage payments ======
   const LS_PAY = "bm_copiapo_payments_v1";
   const payForm = document.getElementById("payForm");
   const payMsg = document.getElementById("payMsg");
@@ -714,14 +844,14 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     arr.unshift(obj);
     localStorage.setItem(LS_PAY, JSON.stringify(arr));
 
-    payMsg.textContent = "Pago registrado localmente ✅ (ideal: conectarlo a correo/planilla).";
+    payMsg.textContent = "Pago registrado localmente ✅";
     payForm.reset();
   });
 
-  // ====== Estadísticas: resumen + gráfico ======
+  // ====== Stats summary + chart ======
   const gd = (a,b)=> (b===0?0: (a/b)*100);
   document.getElementById("seasonSummary").textContent =
-    `Temporada ${STATS.season}: PJ ${STATS.played} · G ${STATS.won} · E ${STATS.drawn} · P ${STATS.lost} · GF ${STATS.goalsFor} · GC ${STATS.goalsAgainst} · Rendimiento ${gd((STATS.won*2 + STATS.drawn), (STATS.played*2)).toFixed(0)}%`;
+    `Temporada ${STATS.season}: PJ ${STATS.played} · G ${STATS.won} · E ${STATS.drawn} · P ${STATS.lost} · GF ${STATS.goalsFor} · GC ${STATS.goalsAgainst}`;
 
   const ctx = document.getElementById("chartResults");
   new Chart(ctx, {
@@ -736,9 +866,7 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: { labels: { color: '#eaf1ff' } }
-      },
+      plugins: { legend: { labels: { color: '#eaf1ff' } } },
       scales: {
         x: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } },
         y: { ticks: { color: '#9bb0d1' }, grid: { color: 'rgba(255,255,255,.06)' } }
