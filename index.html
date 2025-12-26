@@ -739,7 +739,60 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
       }
     }
   });
-  
+
+  function loadGalleryFromDriveJSONP(){
+  const grid = document.getElementById("galleryGrid");
+  if (!grid) {
+    console.warn("No existe #galleryGrid (no se puede cargar galería)");
+    return;
+  }
+
+  grid.innerHTML = `
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+  `;
+
+  window.__driveJsonpOk = false;
+
+  const old = document.getElementById("driveJsonp");
+  if (old) old.remove();
+
+  const cbName = "__bmDriveCb";
+  window[cbName] = window.renderGalleryFromDrive;
+
+  const u = new URL(DRIVE_API_URL);
+  u.searchParams.set("folderId", DRIVE_FOLDER_ID_FOTOS);
+  u.searchParams.set("callback", cbName);
+  u.searchParams.set("v", Date.now());
+
+  const s = document.createElement("script");
+  s.id = "driveJsonp";
+  s.src = u.toString();
+
+  console.log("JSONP URL:", s.src);
+  s.onload = () => console.log("JSONP script cargó (onload) ✅");
+  s.onerror = (ev) => {
+    console.error("JSONP script error (onerror) ❌", ev);
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error de red cargando fotos</div></div>`;
+  };
+
+  document.body.appendChild(s);
+
+  setTimeout(() => {
+    if (!window.__driveJsonpOk) {
+      console.warn("JSONP no llamó callback ❌");
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">No se ejecutó el callback. Revisa permisos o consola.</div></div>`;
+    }
+  }, 2500);
+}
+
+// Ejecutar al cargar la página
+loadGalleryFromDriveJSONP();
+
 // ====== Drive "API" (Apps Script) ======
 const DRIVE_API_URL = "https://script.google.com/macros/s/AKfycbyJz0uhl1E5eW9aWve0d1TiquKFm6-fxFhefwkbmwcZkjeFlXIxx5ZMwE3R3uwW4uk/exec";
 const DRIVE_FOLDER_ID_FOTOS = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
