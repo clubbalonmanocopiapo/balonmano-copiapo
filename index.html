@@ -366,14 +366,8 @@
     </div>
 
     <div class="card">
-      <div class="gallery">
-        <!-- Para usar imágenes reales: cambia el div por <img src="ruta.jpg" ...> -->
-        <div class="ph"><div class="cap">Entrenamiento</div></div>
-        <div class="ph"><div class="cap">Campeonato</div></div>
-        <div class="ph"><div class="cap">Equipo</div></div>
-        <div class="ph"><div class="cap">Infantil</div></div>
-        <div class="ph"><div class="cap">Juvenil</div></div>
-        <div class="ph"><div class="cap">Adultos</div></div>
+     <div class="gallery" id="galleryGrid">
+    <!-- Se rellena desde Drive -->
       </div>
       <p class="hint" style="margin:12px 0 0">
         Si quieres, te dejo esta misma galería conectada a una carpeta (Drive) o a un CMS simple.
@@ -745,6 +739,59 @@ Sugerencia mensualidad: $${CLUB.mensualidad.toLocaleString("es-CL")}`;
       }
     }
   });
+  
+// ====== Drive "API" (Apps Script) ======
+const DRIVE_API_URL = "PEGAR_AQUI_TU_URL_DEL_SCRIPT"; // ejemplo: https://script.google.com/macros/s/XXX/exec
+const DRIVE_FOLDER_ID_FOTOS = "PEGAR_AQUI_FOLDER_ID";  // carpeta con fotos
+
+async function loadGalleryFromDrive() {
+  const grid = document.getElementById("galleryGrid");
+  if (!grid) return;
+
+  // Muestra placeholders mientras carga (mismo estilo)
+  grid.innerHTML = `
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+    <div class="ph"><div class="cap">Cargando…</div></div>
+  `;
+
+  try{
+    const url = `${DRIVE_API_URL}?folderId=${encodeURIComponent(DRIVE_FOLDER_ID_FOTOS)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const items = (data.items || []).slice(0, 24); // máximo 24 fotos (ajustable)
+    if (!items.length) {
+      grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Sin fotos aún</div></div>`;
+      return;
+    }
+
+    grid.innerHTML = items.map((it) => `
+      <a class="ph" href="${it.view}" target="_blank" rel="noopener" style="display:block;text-decoration:none">
+        <img src="${it.direct}" alt="${it.name}" style="width:100%;height:100%;object-fit:cover;display:block" />
+        <div class="cap">${escapeHtml(it.name.replace(/\.(jpg|jpeg|png|webp)$/i,""))}</div>
+      </a>
+    `).join("");
+
+  } catch(err){
+    grid.innerHTML = `<div class="ph" style="grid-column:span 12"><div class="cap">Error cargando fotos</div></div>`;
+    console.error(err);
+  }
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, (m) => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+// Cargar al inicio
+loadGalleryFromDrive();
+
+  
 </script>
 </body>
 </html>
