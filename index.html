@@ -495,4 +495,122 @@
   const driveThumb = (id, w=1200) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`;
 
   const TRAINING_FOLDER_ID = "1JUYI3iNdqDtjzRL4_12ZylY6A3opvip1";
-  const TRAINING_FEED_URL = "https://script.google.com/macros/s/AKfycbzsQsPSvodg5KD4RASU2TWUzvYl-yIsvBcSjdjG91mlgRDEMlhZLZ3qdBkjiAVyd2u7/
+  const TRAINING_FEED_URL = "https://script.google.com/macros/s/AKfycbzsQsPSvodg5KD4RASU2TWUzvYl-yIsvBcSjdjG91mlgRDEMlhZLZ3qdBkjiAVyd2u7/exec";
+
+  const bmTrainStatus = document.getElementById("bmTrainStatus");
+  const bmTrainingCover = document.getElementById("bmTrainingCover");
+  const bmTrainingOpen = document.getElementById("bmTrainingOpen");
+  const bmTrainingModal = document.getElementById("bmTrainingModal");
+  const bmTrainingClose = document.getElementById("bmTrainingClose");
+  const bmTrainingCloseBtn = document.getElementById("bmTrainingCloseBtn");
+  const bmTrainingGrid = document.getElementById("bmTrainingGrid");
+
+  let TRAINING_PHOTOS = [];
+
+  // ====== JSONP helper (soluciona CORS en GitHub Pages) ======
+  function jsonp(url, callbackName) {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      const timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error("JSONP timeout"));
+      }, 15000);
+
+      function cleanup() {
+        clearTimeout(timeout);
+        script.remove();
+        try { delete window[callbackName]; } catch(e) { window[callbackName] = undefined; }
+      }
+
+      window[callbackName] = (data) => {
+        cleanup();
+        resolve(data);
+      };
+
+      script.src = url;
+      script.onerror = () => {
+        cleanup();
+        reject(new Error("JSONP load error"));
+      };
+
+      document.body.appendChild(script);
+    });
+  }
+
+  async function loadTrainingFromDriveFolder(){
+    const cb = "bm_cb_" + Math.random().toString(36).slice(2);
+    const url = `${TRAINING_FEED_URL}?folder=${encodeURIComponent(TRAINING_FOLDER_ID)}&callback=${cb}`;
+
+    bmTrainStatus.textContent = "Cargando fotos de entrenamientos…";
+
+    try{
+      const data = await jsonp(url, cb);
+
+      if (!Array.isArray(data) || data.length === 0) {
+        TRAINING_PHOTOS = [];
+        bmTrainingCover.removeAttribute("src");
+        bmTrainStatus.textContent = "No se encontraron fotos en la carpeta (o permisos).";
+        return;
+      }
+
+      TRAINING_PHOTOS = data.map((x, i) => ({
+        id: x.id,
+        title: (x.name ? x.name : `Entrenamiento ${i+1}`).replace(/\.[^/.]+$/, "")
+      }));
+
+      bmTrainingCover.src = driveThumb(TRAINING_PHOTOS[0].id, 1200);
+      bmTrainingCover.referrerPolicy = "no-referrer";
+
+      bmTrainStatus.textContent = `Listo ✅ ${TRAINING_PHOTOS.length} fotos cargadas. (Click en “Entrenamiento” para ver todas)`;
+    }catch(err){
+      console.error(err);
+      bmTrainStatus.textContent = "Error cargando Drive. Revisa que actualizaste el Apps Script con callback y re-implementaste como 'Cualquiera'.";
+    }
+  }
+
+  function bmRenderTraining(){
+    bmTrainingGrid.innerHTML = "";
+
+    if (!TRAINING_PHOTOS.length) {
+      bmTrainingGrid.innerHTML = `<div class="hint" style="padding:10px">No hay fotos para mostrar. Revisa permisos y recarga.</div>`;
+      return;
+    }
+
+    TRAINING_PHOTOS.forEach((p)=>{
+      const div = document.createElement("div");
+      div.className = "bm-modal-item";
+      div.innerHTML = `
+        <img alt="${p.title}" loading="lazy" referrerpolicy="no-referrer">
+        <div class="bm-modal-cap">${p.title}</div>
+      `;
+      div.querySelector("img").src = driveThumb(p.id, 1200);
+      bmTrainingGrid.appendChild(div);
+    });
+  }
+
+  function bmOpenTraining(){
+    bmTrainingModal.classList.add("show");
+    bmTrainingModal.setAttribute("aria-hidden","false");
+    document.body.style.overflow = "hidden";
+    bmRenderTraining();
+  }
+  function bmCloseTraining(){
+    bmTrainingModal.classList.remove("show");
+    bmTrainingModal.setAttribute("aria-hidden","true");
+    document.body.style.overflow = "";
+  }
+
+  bmTrainingOpen.addEventListener("click", bmOpenTraining);
+  bmTrainingClose.addEventListener("click", bmCloseTraining);
+  bmTrainingCloseBtn.addEventListener("click", bmCloseTraining);
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape" && bmTrainingModal.classList.contains("show")) bmCloseTraining(); });
+
+  const setText = (id, v) => document.getElementById(id).textContent = v;
+  // (tu resto de JS igual, lo dejo tal como lo tienes si está en tu archivo)
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // INIT
+  loadTrainingFromDriveFolder();
+</script>
+</body>
+</html>
